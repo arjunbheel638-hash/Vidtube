@@ -1,62 +1,650 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video - VIDTUBE</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Watch Video | VIDTUBE</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial}
-body{background:#0f0f0f;color:#fff}
-header{height:56px;display:flex;align-items:center;padding:0 16px;position:sticky;top:0;background:#0f0f0f;z-index:100}
-.logo{font-weight:900;font-size:20px;display:flex;align-items:center;gap:5px}
-.logo i{width:30px;height:20px;background:red;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px}
-.container{display:flex;flex-wrap:wrap;padding:16px;gap:24px;max-width:1754px;margin:auto}
-.left{flex:1;min-width:300px}
-.player{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px}
-.title{font-size:20px;font-weight:700;margin:12px 0}
-.channel-row{display:flex;align-items:center;justify-content:space-between;margin:12px 0}
-.channel{display:flex;align-items:center;gap:12px}
-.av{width:40px;height:40px;background:linear-gradient(45deg,red,orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
-.sub{padding:8px 16px;background:#fff;color:#000;border:none;border-radius:20px;font-weight:700;cursor:pointer}
-.actions{display:flex;gap:8px}
-.actions button{padding:8px 16px;background:#272727;border:none;color:#fff;border-radius:20px;cursor:pointer}
-.desc{background:#272727;padding:12px;border-radius:12px;margin-top:12px;font-size:14px;color:#aaa}
-.right{width:402px;min-width:300px}
-.right h3{margin-bottom:12px}
-.s-card{display:flex;gap:8px;margin-bottom:8px;cursor:pointer}
-.s-thumb{width:168px;aspect-ratio:16/9;background:#222;border-radius:8px;flex-shrink:0}
-.s-info{font-size:14px}
-.s-info .sm{color:#aaa;font-size:12px;margin-top:4px}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0f0f0f;
+  color: #f1f1f1;
+  font-family: Arial, sans-serif;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+header {
+  height: 62px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0f0f0f;
+}
+
+.logo {
+  color: white;
+  font-size: 23px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.logo span {
+  background: #ff0033;
+  padding: 5px 8px;
+  border-radius: 7px;
+  margin-right: 5px;
+}
+
+.search {
+  display: flex;
+  flex: 1;
+  max-width: 600px;
+  margin: auto;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  border-radius: 25px 0 0 25px;
+  border: 1px solid #383838;
+  background: #121212;
+  color: white;
+  outline: none;
+}
+
+.search button {
+  padding: 0 22px;
+  border-radius: 0 25px 25px 0;
+  background: #303030;
+  color: white;
+}
+
+.home-btn {
+  background: #272727;
+  color: white;
+  border-radius: 20px;
+  padding: 11px 16px;
+}
+
+.page {
+  max-width: 1450px;
+  margin: 20px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 25px;
+}
+
+.player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #050505;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.player iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.player-placeholder {
+  text-align: center;
+  padding: 20px;
+  color: #ccc;
+}
+
+.big-play {
+  display: block;
+  font-size: 55px;
+  color: #ff0033;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 17px 0 12px;
+}
+
+.stats {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #333;
+}
+
+.action {
+  color: white;
+  background: #272727;
+  padding: 11px 15px;
+  border-radius: 25px;
+}
+
+.action:hover {
+  background: #414141;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #673ab7;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.channel-info {
+  flex: 1;
+}
+
+.channel-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.channel-info p {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.subscribe {
+  background: white;
+  color: #111;
+  padding: 11px 17px;
+  border-radius: 22px;
+  font-weight: bold;
+}
+
+.description {
+  background: #272727;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.comments h2 {
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.comment-form input {
+  min-width: 0;
+  flex: 1;
+  background: transparent;
+  color: white;
+  border: none;
+  border-bottom: 1px solid #555;
+  padding: 12px 4px;
+  outline: none;
+}
+
+.comment-form button {
+  background: #272727;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 20px;
+}
+
+.comment {
+  background: #1b1b1b;
+  padding: 13px;
+  border-radius: 10px;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+
+.comment small {
+  color: #aaa;
+  display: block;
+  margin-top: 7px;
+}
+
+.related h2 {
+  font-size: 19px;
+  margin-bottom: 15px;
+}
+
+.related-card {
+  display: flex;
+  gap: 11px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.related-thumb {
+  flex: 0 0 150px;
+  height: 85px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+}
+
+.related-info h3 {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.related-info p {
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #777;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+    padding: 0 14px;
+    margin-top: 10px;
+  }
+
+  .related {
+    margin-top: 10px;
+  }
+
+  .related-card {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 500px) {
+  header {
+    padding: 0 10px;
+    gap: 10px;
+    height: 55px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .search input {
+    padding: 10px;
+    width: 70px;
+  }
+
+  .search button {
+    padding: 0 12px;
+  }
+
+  .home-btn {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: 19px;
+  }
+
+  .page {
+    padding: 0 10px;
+  }
+
+  .actions {
+    gap: 7px;
+  }
+
+  .action {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .related-thumb {
+    flex-basis: 125px;
+    height: 75px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="logo"><i class="fa-solid fa-play"></i> VIDTUBE</div>
+  <div class="logo" onclick="location.href='index.html'">
+    <span>▶</span>VIDTUBE
+  </div>
+
+  <form class="search" id="searchForm">
+    <input id="searchInput" placeholder="Search videos..." aria-label="Search videos">
+    <button type="submit">⌕</button>
+  </form>
+
+  <button class="home-btn" onclick="location.href='index.html'">Home</button>
 </header>
-<div class="container">
-<div class="left">
-<div class="player" id="player">▶️</div>
-<h1 class="title" id="vtitle">Gaon Ka Samosa Wala Ameer Ho Gaya - AI Desi Kahani</h1>
-<div class="channel-row">
-<div class="channel"><div class="av">V</div><div><div style="font-weight:700">VIDTUBE Stories ✓</div><div style="font-size:12px;color:#aaa">1.2M subscribers</div></div><button class="sub" onclick="this.innerText='Subscribed ✓'">Subscribe</button></div>
-<div class="actions"><button><i class="fa-solid fa-thumbs-up"></i> 45K</button><button><i class="fa-solid fa-share"></i> Share</button></div>
-</div>
-<div class="desc" id="vdesc">1.2M views • 2 days ago • Ye AI se bani desi kahani hai. Like karo, Share karo! #desi #story #ai</div>
-</div>
-<div class="right">
-<h3>Up Next</h3>
-<div id="suggest"></div>
-</div>
-</div>
+
+<main class="page">
+
+  <section>
+    <div class="player" id="player">
+      <div class="player-placeholder">
+        <span class="big-play">▶</span>
+        <p>VIDTUBE Video Player</p>
+        <p style="margin-top:10px;font-size:13px">
+          A YouTube video can play here when a valid video ID is provided.
+        </p>
+      </div>
+    </div>
+
+    <h1 id="videoTitle">Welcome to VIDTUBE</h1>
+
+    <p class="stats" id="videoStats">
+      VIDTUBE · Video player demo
+    </p>
+
+    <div class="actions">
+      <button class="action" id="likeBtn">👍 Like <span id="likeCount">0</span></button>
+      <button class="action" id="dislikeBtn">👎 Dislike</button>
+      <button class="action" id="saveBtn">◷ Watch Later</button>
+      <button class="action" id="shareBtn">↗ Share</button>
+    </div>
+
+    <div class="channel">
+      <div class="avatar">V</div>
+      <div class="channel-info">
+        <h3>VIDTUBE Creator</h3>
+        <p>Video creator</p>
+      </div>
+      <button class="subscribe" id="subscribeBtn">Subscribe</button>
+    </div>
+
+    <div class="description">
+      <strong>About this video</strong>
+      <p style="margin-top:8px">
+        Welcome to VIDTUBE! Discover videos, music, entertainment and creators.
+        Video playback requires a valid YouTube video ID or a hosted video URL.
+      </p>
+    </div>
+
+    <section class="comments">
+      <h2>Comments <span id="commentCount">0</span></h2>
+
+      <form class="comment-form" id="commentForm">
+        <input id="commentInput" placeholder="Add a comment..." maxlength="500">
+        <button type="submit">Comment</button>
+      </form>
+
+      <div id="commentsList"></div>
+    </section>
+  </section>
+
+  <aside class="related">
+    <h2>Related Videos</h2>
+    <div id="relatedList"></div>
+  </aside>
+
+</main>
+
+<footer>
+  VIDTUBE · Watch, discover and enjoy
+</footer>
+
 <script>
-// Video title URL se lega
 const params = new URLSearchParams(location.search);
-const t = params.get('t');
-if(t){ document.getElementById('vtitle').innerText = decodeURIComponent(t); document.getElementById('player').innerText = decodeURIComponent(t); document.getElementById('player').style.fontSize='20px'; }
-// Suggested videos
-const vids = ["Bhoot Aur Chai - Funny Story","Chai Wale Ka Pyar - 90s Love","Truck Driver Ki Dua","Billi Ka Badla - Comedy"];
-document.getElementById('suggest').innerHTML = vids.map(v=>`<div class="s-card" onclick="location.href='watch.html?t=${encodeURIComponent(v)}'"><div class="s-thumb"></div><div class="s-info">${v}<div class="sm">500K views • 3 days ago</div></div></div>`).join('');
+const title = params.get("t") || "Welcome to VIDTUBE";
+const videoId = params.get("id") || "";
+
+document.title = title + " | VIDTUBE";
+document.getElementById("videoTitle").textContent = title;
+
+function validYouTubeId(id) {
+  return /^[a-zA-Z0-9_-]{11}$/.test(id);
+}
+
+// Play a video only when the URL contains a valid YouTube video ID.
+if (validYouTubeId(videoId)) {
+  const iframe = document.createElement("iframe");
+  iframe.src = "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(videoId);
+  iframe.title = title;
+  iframe.allow =
+    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  iframe.allowFullscreen = true;
+  document.getElementById("player").replaceChildren(iframe);
+}
+
+function readList(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeList(key, list) {
+  localStorage.setItem(key, JSON.stringify(list));
+}
+
+function updateLikeCount() {
+  const likes = readList("vidtubeLikes");
+  document.getElementById("likeCount").textContent =
+    likes.includes(title) ? "1" : "0";
+}
+
+document.getElementById("likeBtn").addEventListener("click", () => {
+  let likes = readList("vidtubeLikes");
+
+  if (likes.includes(title)) {
+    likes = likes.filter(item => item !== title);
+  } else {
+    likes.push(title);
+  }
+
+  writeList("vidtubeLikes", likes);
+  updateLikeCount();
+});
+
+document.getElementById("dislikeBtn").addEventListener("click", () => {
+  alert("Dislike demo. Real user accounts and server storage will be added in a later step.");
+});
+
+document.getElementById("saveBtn").addEventListener("click", () => {
+  const saved = readList("vidtubeSaved");
+
+  if (!saved.includes(title)) {
+    saved.push(title);
+    writeList("vidtubeSaved", saved);
+    alert("Added to Watch Later on this browser.");
+  } else {
+    alert("This video is already in Watch Later.");
+  }
+});
+
+document.getElementById("shareBtn").addEventListener("click", async () => {
+  try {
+    if (navigator.share) {
+      await navigator.share({title: title, url: location.href});
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(location.href);
+      alert("Video link copied.");
+    } else {
+      prompt("Copy this video link:", location.href);
+    }
+  } catch (error) {
+    // Sharing was cancelled or is unavailable.
+  }
+});
+
+let subscribed = false;
+
+document.getElementById("subscribeBtn").addEventListener("click", function() {
+  subscribed = !subscribed;
+  this.textContent = subscribed ? "Subscribed ✓" : "Subscribe";
+  this.style.background = subscribed ? "#272727" : "white";
+  this.style.color = subscribed ? "white" : "#111";
+});
+
+function renderComments() {
+  const comments = readList("vidtubeComments_" + title);
+  const list = document.getElementById("commentsList");
+
+  document.getElementById("commentCount").textContent = comments.length;
+  list.replaceChildren();
+
+  comments.forEach(comment => {
+    const item = document.createElement("div");
+    item.className = "comment";
+
+    const body = document.createElement("p");
+    body.textContent = comment.text;
+
+    const meta = document.createElement("small");
+    meta.textContent = comment.date;
+
+    item.append(body, meta);
+    list.appendChild(item);
+  });
+}
+
+document.getElementById("commentForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const input = document.getElementById("commentInput");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const comments = readList("vidtubeComments_" + title);
+
+  comments.unshift({
+    text: text,
+    date: new Date().toLocaleString()
+  });
+
+  writeList("vidtubeComments_" + title, comments);
+  input.value = "";
+  renderComments();
+});
+
+document.getElementById("searchForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const query = document.getElementById("searchInput").value.trim();
+
+  location.href = "index.html" +
+    (query ? "?q=" + encodeURIComponent(query) : "");
+});
+
+const relatedVideos = [
+  {
+    title: "Beautiful Village Life",
+    emoji: "🌾",
+    bg: "linear-gradient(135deg,#315c32,#b7a65a)",
+    channel: "Village Stories"
+  },
+  {
+    title: "Trending Music Mix",
+    emoji: "🎵",
+    bg: "linear-gradient(135deg,#411b79,#e63c8c)",
+    channel: "Music World"
+  },
+  {
+    title: "Funny Moments",
+    emoji: "😂",
+    bg: "linear-gradient(135deg,#f59e0b,#dc2626)",
+    channel: "Fun Time"
+  },
+  {
+    title: "Amazing AI Story",
+    emoji: "🤖",
+    bg: "linear-gradient(135deg,#075985,#7c3aed)",
+    channel: "AI Story Studio"
+  }
+];
+
+function renderRelated() {
+  const list = document.getElementById("relatedList");
+
+  relatedVideos.forEach(video => {
+    const card = document.createElement("article");
+    card.className = "related-card";
+
+    const thumb = document.createElement("div");
+    thumb.className = "related-thumb";
+    thumb.style.background = video.bg;
+    thumb.textContent = video.emoji;
+
+    const info = document.createElement("div");
+    info.className = "related-info";
+
+    const heading = document.createElement("h3");
+    heading.textContent = video.title;
+
+    const channel = document.createElement("p");
+    channel.textContent = video.channel;
+
+    info.append(heading, channel);
+    card.append(thumb, info);
+
+    card.addEventListener("click", () => {
+      location.href = "watch.html?t=" + encodeURIComponent(video.title);
+    });
+
+    list.appendChild(card);
+  });
+}
+
+updateLikeCount();
+renderComments();
+renderRelated();
 </script>
+
 </body>
 </html>
