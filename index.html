@@ -1,102 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIDTUBE - Watch, Create, Share</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>VIDTUBE — Watch. Create. Share.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial,sans-serif}
-body{background:#0f0f0f;color:#fff}
-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#0f0f0f;position:sticky;top:0;z-index:100}
-.logo{display:flex;align-items:center;gap:3px;font-weight:900;font-size:20px}
-.logo i{width:32px;height:22px;background:#ff0000;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
-.logo sup{font-size:10px;color:#aaa;margin-left:4px;font-weight:400}
-.search{flex:1;max-width:640px;display:flex;margin:0 10px}
-.search input{flex:1;height:40px;background:#121212;border:1px solid #303030;border-radius:20px 0 0 20px;padding:0 16px;color:#fff;outline:none;font-size:16px}
-.search button{width:50px;height:40px;background:#222222;border:1px solid #303030;border-left:none;border-radius:0 20px 20px 0;color:#f1f1f1;cursor:pointer}
-.mic,.right i{display:none}
-@media(min-width:700px){.mic,.right i{display:flex}}
-.mic{width:40px;height:40px;background:#272727;border-radius:50%;align-items:center;justify-content:center;margin-left:8px;cursor:pointer}
-.right{display:flex;align-items:center;gap:16px;font-size:20px}
-.right .avatar{width:32px;height:32px;background:linear-gradient(45deg,#ff0000,#ff6a00);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
-.chips{height:56px;display:flex;align-items:center;gap:8px;padding:0 12px;overflow-x:auto;white-space:nowrap;background:#0f0f0f;border-top:1px solid #212121;border-bottom:1px solid #212121;position:sticky;top:56px;z-index:99}
-.chips::-webkit-scrollbar{display:none}
-.chips button{padding:8px 12px;background:#272727;color:#f1f1f1;border:none;border-radius:8px;font-size:14px;cursor:pointer;flex-shrink:0}
-.chips button.active{background:#fff;color:#0f0f0f}
-.main{flex:1;max-width:100%}
-.hero{margin:12px;padding:20px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:16px;border:1px solid #212121}
-.hero h1{font-size:26px;font-weight:900;margin-bottom:6px}
-.hero p{color:#aaa;font-size:14px;margin-bottom:12px}
-.hero button{padding:8px 16px;background:#fff;color:#000;border:none;border-radius:20px;font-weight:700;cursor:pointer;font-size:14px}
-.section{padding:0 0 16px 0}
-.section h2{font-size:18px;padding:12px}
-.grid{display:flex;flex-direction:column;gap:0}
-.card{cursor:pointer;overflow:hidden;margin-bottom:0;background:transparent;border-bottom:8px solid #1f1f1f}
-.thumb{width:100%;aspect-ratio:16/9;background:#181818;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;text-align:center}
-.time{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.8);padding:2px 6px;border-radius:4px;font-size:12px}
-.live{position:absolute;top:8px;left:8px;background:#ff0000;padding:2px 6px;border-radius:4px;font-size:12px;font-weight:700}
-.info{display:flex;gap:12px;padding:12px}
-.av{width:36px;height:36px;background:#333;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700}
-.title{font-size:16px;font-weight:500;line-height:1.3}
-.channel{font-size:14px;color:#aaa;margin-top:4px}
-.meta{font-size:14px;color:#aaa;margin-top:2px}
-.generator{margin:12px;background:#1f1f1f;padding:16px;border-radius:12px;border:1px solid #333}
-.generator input{width:100%;padding:12px;border-radius:24px;border:1px solid #444;background:#121212;color:#fff;font-size:15px}
-.generator button{margin-top:10px;padding:10px 20px;background:#ff0000;color:#fff;border:none;border-radius:24px;font-weight:700;cursor:pointer}
-@media(min-width:700px){
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:0 16px}
-.card{border-radius:12px;margin-bottom:0;border-bottom:none;background:#0f0f0f}
-.thumb{border-radius:12px}
-}
+:root{color-scheme:dark;--bg:#0f0f0f;--panel:#181818;--panel2:#272727;--text:#f1f1f1;--muted:#aaa;--red:#ff0033;--line:#303030}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Roboto,Arial,sans-serif}button,input{font:inherit}button{cursor:pointer;color:inherit;border:0}a{color:inherit;text-decoration:none}
+.topbar{height:62px;display:flex;align-items:center;gap:20px;padding:0 22px;background:#0f0f0f;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:700;letter-spacing:-1px;white-space:nowrap}.brand-icon{background:var(--red);color:#fff;border-radius:8px;padding:5px 7px;font-size:17px}.brand small{font-size:9px;color:#aaa;letter-spacing:0;vertical-align:top;margin-left:2px}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:transparent;font-size:18px}.iconbtn:hover{background:#272727}.menu-btn{margin-left:-8px}
+.search-wrap{display:flex;align-items:center;max-width:660px;flex:1;margin:auto;gap:12px}.searchbox{display:flex;flex:1;height:42px;border:1px solid #303030;border-radius:24px;overflow:hidden;background:#121212}.searchbox input{flex:1;min-width:0;background:transparent;border:0;outline:0;padding:0 18px;color:#fff}.searchbox button{width:64px;background:#222;border-left:1px solid #303030;font-size:16px}.mic{background:#181818!important;flex:none}.right-actions{display:flex;align-items:center;gap:10px}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#a76a42;color:white;font-weight:700}
+.chips{position:sticky;top:62px;z-index:15;display:flex;gap:12px;overflow:auto;padding:12px 22px;background:rgba(15,15,15,.97);scrollbar-width:none;border-bottom:1px solid #181818}.chips::-webkit-scrollbar{display:none}.chip{background:#272727;border-radius:8px;padding:9px 14px;white-space:nowrap;font-size:14px}.chip:hover{background:#3a3a3a}.chip.active{background:#f1f1f1;color:#111;font-weight:700}
+.layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:18px}.sidebar{height:calc(100vh - 62px);overflow:auto;position:sticky;top:62px;padding:12px 12px 28px;border-right:1px solid #1d1d1d}.side-link{width:100%;display:flex;align-items:center;gap:22px;padding:12px 15px;border-radius:10px;background:transparent;text-align:left;font-size:14px}.side-link i{width:20px;font-size:18px;text-align:center}.side-link:hover,.side-link.selected{background:#272727}.side-sep{border:0;border-top:1px solid #303030;margin:13px 0}.side-heading{padding:8px 15px;font-weight:700;font-size:15px}.side-note{font-size:12px;line-height:1.5;color:#aaa;padding:8px 15px}
+main{min-width:0;padding:18px 22px 70px}.hero{border-radius:18px;min-height:190px;padding:28px 32px;margin:0 0 24px;background:radial-gradient(circle at 80% 20%,#ff426c66,transparent 32%),linear-gradient(110deg,#171c2d,#29142a 65%,#391421);display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}.hero .eyebrow{color:#ff8ca6;text-transform:uppercase;font-size:12px;letter-spacing:2px;font-weight:700}.hero h1{font-size:clamp(25px,3.2vw,42px);margin:9px 0;letter-spacing:-1px}.hero p{margin:0;color:#d2d2d2}.hero-cta{background:#fff;color:#111;padding:12px 18px;border-radius:22px;font-weight:700;white-space:nowrap}.section-title{font-size:21px;margin:26px 0 17px;display:flex;align-items:center;gap:10px}.section-title i{color:var(--red)}
+.video-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:30px 16px}.video-card{min-width:0;cursor:pointer}.thumb{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;display:grid;place-items:center;font-size:52px;background:linear-gradient(135deg,#21435d,#6d2d4b)}.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0003,transparent 55%)}.thumb .emoji{filter:drop-shadow(0 4px 5px #0008);z-index:1}.duration{position:absolute;bottom:8px;right:8px;background:#000c;border-radius:4px;padding:3px 5px;font-size:12px;z-index:2}.video-info{display:flex;gap:12px;padding-top:12px}.channel-avatar{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#684a91;font-weight:700}.video-copy{min-width:0;flex:1}.video-copy h3{font-size:15px;line-height:1.35;margin:0 0 7px;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.channel-name,.meta{font-size:13px;color:var(--muted);line-height:1.5}.verified{font-size:10px;margin-left:3px}.dots{float:right;background:transparent;color:#aaa}
+.shorts-head{display:flex;align-items:center;gap:10px;margin-top:36px}.shorts-logo{background:var(--red);padding:5px 8px;border-radius:6px}.shorts-row{display:flex;gap:14px;overflow-x:auto;padding:5px 0 18px;scrollbar-width:thin}.short-card{flex:0 0 160px;height:280px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;background:linear-gradient(160deg,#235b68,#682a50);display:flex;align-items:center;justify-content:center;font-size:45px}.short-card:nth-child(2n){background:linear-gradient(160deg,#72552b,#4a234e)}.short-card:nth-child(3n){background:linear-gradient(160deg,#234a7b,#5b243b)}.short-card .short-caption{position:absolute;bottom:0;left:0;right:0;padding:34px 10px 12px;font-size:14px;line-height:1.3;background:linear-gradient(transparent,#000d)}.short-card .short-views{display:block;color:#ddd;font-size:12px;margin-top:7px}
+.generator{background:#171717;border:1px solid #303030;border-radius:16px;padding:20px;margin:35px 0}.generator h2{margin:0 0 8px;font-size:20px}.generator p{color:#aaa;font-size:13px;line-height:1.5}.generator-row{display:flex;gap:10px}.generator input{flex:1;min-width:0;background:#0f0f0f;border:1px solid #444;border-radius:10px;padding:13px;color:#fff;outline:none}.primary{background:var(--red);color:white;border-radius:9px;padding:12px 16px;font-weight:700}.generator-output{white-space:pre-wrap;color:#ddd;font-size:14px;line-height:1.5;margin-top:14px}
+.empty{padding:30px;text-align:center;color:#aaa}.mobile-nav{display:none}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#f1f1f1;color:#111;padding:12px 18px;border-radius:8px;z-index:100;display:none;box-shadow:0 5px 20px #0008}
+@media(max-width:1200px){.video-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.layout{grid-template-columns:200px minmax(0,1fr)}}
+@media(max-width:850px){.sidebar{width:76px;padding:10px 6px}.layout{grid-template-columns:76px minmax(0,1fr)}.side-link{justify-content:center;padding:13px 4px}.side-link span,.side-heading,.side-note,.side-sep{display:none}.side-link{font-size:0}.side-link i{font-size:20px}.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:24px}.right-actions{gap:2px}.topbar{padding:0 12px;gap:10px}}
+@media(max-width:600px){.topbar{height:56px;padding:0 10px;gap:7px}.brand{font-size:19px}.brand-icon{font-size:14px}.menu-btn{display:none}.search-wrap{justify-content:flex-end;gap:4px}.searchbox{height:38px;border:0;background:#272727;max-width:42px;transition:max-width .2s}.searchbox:focus-within{max-width:100%;border:1px solid #444}.searchbox input{padding:0;width:0}.searchbox:focus-within input{width:100%;min-width:80px}.searchbox button{width:42px;background:transparent;border:0}.mic,.upload-label,.bell{display:none}.right-actions{gap:2px}.chips{top:56px;padding:10px 12px;gap:8px}.chip{padding:8px 12px;font-size:13px}.layout{display:block}.sidebar{display:none}main{padding:12px 0 80px}.hero{margin:0 12px 20px;padding:23px 20px;min-height:165px;display:block;border-radius:0}.hero h1{font-size:28px}.hero p{font-size:13px}.hero-cta{margin-top:14px;padding:10px 14px}.section-title{margin:22px 12px 14px;font-size:19px}.video-grid{display:block}.video-card{margin-bottom:22px}.thumb{border-radius:0;aspect-ratio:16/9}.video-info{padding:10px 12px 0}.channel-avatar{width:38px;height:38px}.video-copy h3{font-size:15px}.shorts-head{margin:26px 12px 14px}.shorts-row{padding:0 12px 15px}.generator{margin:24px 12px;padding:16px}.generator-row{flex-direction:column}.generator-row .primary{width:100%}.mobile-nav{position:fixed;bottom:0;left:0;right:0;height:58px;background:#0f0f0f;border-top:1px solid #303030;display:flex;justify-content:space-around;align-items:center;z-index:25}.mobile-nav button{background:transparent;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:#ddd}.mobile-nav i{font-size:19px}.toast{width:calc(100% - 30px);text-align:center}}
 </style>
 </head>
 <body>
-<header>
-<div class="logo"><i class="fa-solid fa-play"></i> VIDTUBE <sup>PK</sup></div>
-<div class="search"><input placeholder="Search"><button><i class="fa-solid fa-magnifying-glass"></i></button><div class="mic"><i class="fa-solid fa-microphone"></i></div></div>
-<div class="right"><i class="fa-solid fa-video"></i><i class="fa-regular fa-bell"></i><div class="avatar">A</div></div>
+<header class="topbar">
+<button class="iconbtn menu-btn" aria-label="Menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+<a class="brand" href="index.html" aria-label="VIDTUBE home"><span class="brand-icon"><i class="fa-solid fa-play"></i></span> VIDTUBE</a>
+<div class="search-wrap">
+<form class="searchbox" id="searchForm"><input id="searchInput" type="search" placeholder="Search" aria-label="Search videos"><button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button></form>
+<button class="iconbtn mic" id="voiceSearch" aria-label="Voice search"><i class="fa-solid fa-microphone"></i></button>
+</div>
+<div class="right-actions">
+<button class="iconbtn upload-label" id="uploadBtn" aria-label="Upload video" title="Upload video"><i class="fa-solid fa-video"></i></button>
+<button class="iconbtn bell" id="bellBtn" aria-label="Notifications" title="Notifications"><i class="fa-regular fa-bell"></i></button>
+<button class="iconbtn" id="profileBtn" aria-label="Profile" title="Profile"><span class="avatar">V</span></button>
+</div>
 </header>
-<div class="chips">
-<button class="active">All</button><button>Music</button><button>Trending</button><button>Pakistani Dramas</button><button>Desi Vlogs</button><button>Comedy</button><button>Islamic</button><button>AI Stories</button>
+<div class="chips" id="chips">
+<button class="chip active" data-category="All">All</button><button class="chip" data-category="Music">Music</button><button class="chip" data-category="Trending">Trending</button><button class="chip" data-category="Pakistani Dramas">Pakistani Dramas</button><button class="chip" data-category="Desi Vlogs">Desi Vlogs</button><button class="chip" data-category="Comedy">Comedy</button><button class="chip" data-category="Islamic">Islamic</button><button class="chip" data-category="AI Stories">AI Stories</button>
 </div>
-<div class="main">
-<div class="hero"><h1>Watch. Create. Share.</h1><p>Pakistan's First AI Video Platform</p><button><i class="fa-solid fa-rocket"></i> Start Creating</button></div>
-<div class="section">
-<h2>Trending Videos 🔥</h2>
-<div class="grid">
-<div class="card" onclick="location.href='watch.html?t=Gaon Ka Samosa Wala Ameer Ho Gaya'"><div class="thumb" style="background:linear-gradient(45deg,#ff9a9e,#fecfef)">SAMOSA WALA STORY<div class="time">12:24</div></div><div class="info"><div class="av">V</div><div><div class="title">Gaon Ka Samosa Wala Ameer Ho Gaya - AI Desi Kahani Full HD</div><div class="channel">VIDTUBE Stories ✓</div><div class="meta">1.2M views • 2 days ago</div></div></div></div>
-<div class="card" onclick="location.href='watch.html?t=Bhoot Aur Chai'"><div class="thumb" style="background:linear-gradient(45deg,#a1c4fd,#c2e9fb)">BHOOT AUR CHAI<div class="time">8:15</div></div><div class="info"><div class="av">K</div><div><div class="title">Nani Aur Bhoot Ki Chai - Funny Horror Story</div><div class="channel">Kahani Wali</div><div class="meta">890K views • 5 days ago</div></div></div></div>
-<div class="card" onclick="location.href='watch.html?t=Chai Wale Ka Pyar'"><div class="thumb" style="background:linear-gradient(45deg,#ffecd2,#fcb69f)">CHAI WALA LOVE<div class="time">15:42</div></div><div class="info"><div class="av">C</div><div><div class="title">Chai Wale Ka Pyar - 90s Love Story</div><div class="channel">Chai Lover</div><div class="meta">2.1M views • 1 week ago</div></div></div></div>
-<div class="card" onclick="location.href='watch.html?t=Truck Driver Ki Dua'"><div class="thumb" style="background:linear-gradient(45deg,#f6d365,#fda085)">TRUCK DRIVER DUA<div class="time">20:18</div></div><div class="info"><div class="av">T</div><div><div class="title">Truck Driver Ki Dua Qabool Ho Gayi - Islamic Story</div><div class="channel">Islamic VIDTUBE ✓</div><div class="meta">3.4M views • 2 weeks ago</div></div></div></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<button class="side-link selected" data-nav="All"><i class="fa-solid fa-house"></i><span>Home</span></button>
+<button class="side-link" data-nav="Trending"><i class="fa-solid fa-fire"></i><span>Trending</span></button>
+<button class="side-link" data-nav="Shorts"><i class="fa-solid fa-bolt"></i><span>Shorts</span></button>
+<button class="side-link" id="subscriptionsBtn"><i class="fa-solid fa-tv"></i><span>Subscriptions</span></button>
+<hr class="side-sep"><div class="side-heading">You <i class="fa-solid fa-chevron-right"></i></div>
+<button class="side-link" id="historyBtn"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></button>
+<button class="side-link" id="watchLaterBtn"><i class="fa-regular fa-clock"></i><span>Watch later</span></button>
+<button class="side-link" id="likedBtn"><i class="fa-regular fa-thumbs-up"></i><span>Liked videos</span></button>
+<hr class="side-sep"><div class="side-heading">Explore</div>
+<button class="side-link" data-nav="Music"><i class="fa-solid fa-music"></i><span>Music</span></button>
+<button class="side-link" data-nav="Gaming"><i class="fa-solid fa-gamepad"></i><span>Gaming</span></button>
+<button class="side-link" data-nav="News"><i class="fa-regular fa-newspaper"></i><span>News</span></button>
+<div class="side-note">VIDTUBE is an independent demo video platform.</div>
+</aside>
+<main>
+<section class="hero"><div><div class="eyebrow">Introducing VIDTUBE</div><h1>Watch. Create. Share.</h1><p>Pakistan's First AI Video Platform</p><button class="hero-cta" id="heroUpload"><i class="fa-solid fa-plus"></i> Create with VIDTUBE</button></div><div style="font-size:clamp(48px,8vw,92px);opacity:.85;padding-right:10px" aria-hidden="true"><i class="fa-solid fa-circle-play"></i></div></section>
+<h2 class="section-title" id="feedTitle"><i class="fa-solid fa-fire"></i> Trending videos</h2>
+<section class="video-grid" id="videoGrid" aria-live="polite"></section>
+<section id="shortsSection"><h2 class="section-title shorts-head"><span class="shorts-logo"><i class="fa-solid fa-play"></i></span> Shorts</h2><div class="shorts-row" id="shortsRow"></div></section>
+<section class="generator" id="generator"><h2><i class="fa-solid fa-wand-magic-sparkles" style="color:#ff426c"></i> AI Video Idea Generator</h2><p>Enter a topic to create a video idea and starter script. This works locally; an external AI service is optional.</p><div class="generator-row"><input id="ideaInput" placeholder="e.g. Village life in Thar, funny family story..."><button class="primary" id="generateBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate idea</button></div><div class="generator-output" id="generatorOutput"></div></section>
+</main>
 </div>
-</div>
-<div class="generator"><h3>🎬 FREE AI Video Generator</h3><input placeholder="Kahani likho..."><button>✨ Generate Video FREE</button></div>
-</div>
-</div>
+<nav class="mobile-nav"><button data-mobile="home"><i class="fa-solid fa-house"></i>Home</button><button data-mobile="shorts"><i class="fa-solid fa-bolt"></i>Shorts</button><button data-mobile="create"><i class="fa-solid fa-circle-plus"></i>Create</button><button data-mobile="subscriptions"><i class="fa-solid fa-tv"></i>Subscriptions</button><button data-mobile="you"><i class="fa-regular fa-user"></i>You</button></nav>
+<div class="toast" id="toast"></div>
 <script>
-const searchInput = document.querySelector('.search input');
-const cards = document.querySelectorAll('.card');
-const chips = document.querySelectorAll('.chips button');
-searchInput.addEventListener('input', (e)=>{
-  const q = e.target.value.toLowerCase();
-  cards.forEach(card=>{
-    const title = card.querySelector('.title').innerText.toLowerCase();
-    card.style.display = title.includes(q) ? 'block' : 'none';
-  });
-});
-chips.forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    chips.forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    const filter = chip.innerText.toLowerCase();
-    cards.forEach(card=>{
-      if(filter==='all'){card.style.display='block'; return;}
-      const title = card.querySelector('.title').innerText.toLowerCase();
-      card.style.display = title.includes(filter) ? 'block' : 'none';
-    });
-  });
-});
+const starterVideos = [
+ {id:"v1",title:"A Beautiful Morning in Thar Desert | Village Life Pakistan",channel:"Arjun Ke Vlog",verified:true,views:"125K views",age:"2 days ago",duration:"12:48",category:"Desi Vlogs",emoji:"🌅",colors:["#5c3147","#e18b52"],avatar:"A"},
+ {id:"v2",title:"Top Pakistani Drama Moments You Need to See",channel:"Drama Junction",verified:true,views:"890K views",age:"1 day ago",duration:"18:06",category:"Pakistani Dramas",emoji:"🎭",colors:["#402b69","#d95b72"],avatar:"D"},
+ {id:"v3",title:"Relaxing Music for Study and Peaceful Mind",channel:"Peaceful Tunes",verified:true,views:"2.1M views",age:"1 week ago",duration:"45:20",category:"Music",emoji:"🎧",colors:["#174d63","#4b7e9e"],avatar:"P"},
+ {id:"v4",title:"Funny Desi Family | Best Comedy Moments",channel:"Desi Comedy Club",verified:true,views:"540K views",age:"5 days ago",duration:"09:32",category:"Comedy",emoji:"😂",colors:["#8b462b","#d7a13b"],avatar:"C"},
+ {id:"v5",title:"A Short Reminder: Kindness and Gratitude",channel:"Noor Islamic",verified:true,views:"76K views",age:"3 days ago",duration:"07:15",category:"Islamic",emoji:"🕌",colors:["#165b4b","#53a58b"],avatar:"N"},
+ {id:"v6",title:"AI Story: The Brave Boy and the Desert Fox",channel:"AI Kahani Studio",verified:true,views:"310K views",age:"12 hours ago",duration:"10:44",category:"AI Stories",emoji:"🦊",colors:["#653c83","#e28e53"],avatar:"AI"}
+];
+const starterShorts=[
+ {title:"Thar village morning 🌄",views:"84K views",emoji:"🌄",category:"Desi Vlogs"},
+ {title:"Funny desi moment 😂",views:"210K views",emoji:"😂",category:"Comedy"},
+ {title:"AI story twist 🦊",views:"96K views",emoji:"🦊",category:"AI Stories"},
+ {title:"Peaceful reminder 🕌",views:"52K views",emoji:"🕌",category:"Islamic"},
+ {title:"Music mood 🎵",views:"1.2M views",emoji:"🎵",category:"Music"}
+];
+let uploads = safeParse(localStorage.getItem("vidtubeUploads"),[]);
+let videos = [...uploads,...starterVideos];
+let activeCategory="All";
+let searchTerm="";
+let watchLater = safeParse(localStorage.getItem("vidtubeWatchLater"),[]);
+let liked = safeParse(localStorage.getItem("vidtubeLiked"),[]);
+function safeParse(value,fallback){try{return value?JSON.parse(value):fallback}catch(e){return fallback}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function slugParam(title){return encodeURIComponent(title)}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.style.display="block";clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.style.display="none",2600)}
+function renderVideos(){
+ const filtered=videos.filter(v=>{
+  const matchesSearch=(v.title+" "+v.channel).toLowerCase().includes(searchTerm);
+  const matchesCategory=activeCategory==="All"||activeCategory==="Trending"||v.category===activeCategory;
+  return matchesSearch&&matchesCategory;
+ });
+ document.getElementById("feedTitle").innerHTML=(activeCategory==="All"||activeCategory==="Trending"?'<i class="fa-solid fa-fire"></i> Trending videos':'<i class="fa-solid fa-circle-play"></i> '+esc(activeCategory)) + (searchTerm?' — Search results':'');
+ const grid=document.getElementById("videoGrid");
+ if(!filtered.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1">No videos found. Try another search or category.</div>';return}
+ grid.innerHTML=filtered.map((v,i)=>`<article class="video-card" tabindex="0" role="link" aria-label="Watch ${esc(v.title)}" data-id="${esc(v.id)}">
+  <div class="thumb" style="background:linear-gradient(135deg,${esc((v.colors||["#21435d","#6d2d4b"])[0])},${esc((v.colors||["#21435d","#6d2d4b"])[1])})"><span class="emoji">${esc(v.emoji||"🎬")}</span><span class="duration">${esc(v.duration||"NEW")}</span></div>
+  <div class="video-info"><div class="channel-avatar">${esc(v.avatar||"V")}</div><div class="video-copy"><h3>${esc(v.title)}</h3><div class="channel-name">${esc(v.channel||"VIDTUBE Creator")} ${v.verified?'<i class="fa-solid fa-circle-check verified"></i>':''}</div><div class="meta">${esc(v.views||"New video")} · ${esc(v.age||"just now")}</div></div><button class="dots" data-menu="${esc(v.id)}" aria-label="Video options"><i class="fa-solid fa-ellipsis-vertical"></i></button></div>
+ </article>`).join("");
+ grid.querySelectorAll(".video-card").forEach(card=>{card.addEventListener("click",e=>{if(e.target.closest("[data-menu]"))return;const v=videos.find(x=>x.id===card.dataset.id);if(v)location.href="watch.html?t="+slugParam(v.title)+"&id="+encodeURIComponent(v.id)});card.addEventListener("keydown",e=>{if(e.key==="Enter")card.click()})});
+ grid.querySelectorAll("[data-menu]").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();const v=videos.find(x=>x.id===btn.dataset.menu);if(!v)return;const choice=prompt("Video options:\n1 = Save to Watch Later\n2 = Like video\nEnter 1 or 2");if(choice==="1"){if(!watchLater.includes(v.id))watchLater.push(v.id);localStorage.setItem("vidtubeWatchLater",JSON.stringify(watchLater));toast("Saved to Watch Later")}else if(choice==="2"){if(!liked.includes(v.id))liked.push(v.id);localStorage.setItem("vidtubeLiked",JSON.stringify(liked));toast("Added to Liked videos")}}));
+}
+function renderShorts(){document.getElementById("shortsRow").innerHTML=starterShorts.map((s,i)=>`<article class="short-card" tabindex="0" data-short="${i}" aria-label="${esc(s.title)}"><span>${esc(s.emoji)}</span><div class="short-caption">${esc(s.title)}<span class="short-views">${esc(s.views)}</span></div></article>`).join("");document.querySelectorAll("[data-short]").forEach(card=>card.addEventListener("click",()=>{const s=starterShorts[Number(card.dataset.short)];document.getElementById("searchInput").value=s.category;searchTerm=s.category.toLowerCase();activeCategory="All";updateChip();renderVideos();window.scrollTo({top:0,behavior:"smooth"})}))}
+function updateChip(){document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",c.dataset.category===activeCategory));document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("selected",b.dataset.nav===activeCategory))}
+document.getElementById("searchInput").addEventListener("input",e=>{searchTerm=e.target.value.trim().toLowerCase();renderVideos()});
+document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();renderVideos()});
+document.getElementById("chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;activeCategory=b.dataset.category;updateChip();renderVideos()});
+document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{activeCategory=b.dataset.nav;searchTerm="";document.getElementById("searchInput").value="";updateChip();renderVideos()}));
+function uploadVideo(){
+ const title=prompt("Video Title likho");
+ if(!title||!title.trim())return;
+ const category=prompt("Category likho: Music, Pakistani Dramas, Desi Vlogs, Comedy, Islamic, AI Stories","Desi Vlogs")||"Desi Vlogs";
+ const item={id:"u"+Date.now(),title:title.trim(),channel:"Your Channel",verified:false,views:"0 views",age:"just now",duration:"LOCAL",category:category.trim(),emoji:"🎬",colors:["#234c62","#8d3157"],avatar:"Y",local:true};
+ uploads.unshift(item);videos=[...uploads,...starterVideos];localStorage.setItem("vidtubeUploads",JSON.stringify(uploads));renderVideos();toast("Video title saved in this browser.");
+}
+document.getElementById("uploadBtn").addEventListener("click",uploadVideo);document.getElementById("heroUpload").addEventListener("click",uploadVideo);document.querySelector('[data-mobile="create"]').addEventListener("click",uploadVideo);
+document.getElementById("bellBtn").addEventListener("click",()=>toast("No new notifications yet."));
+document.getElementById("profileBtn").addEventListener("click",()=>toast("Profile demo: account system needs a backend."));
+document.getElementById("subscriptionsBtn").addEventListener("click",()=>toast("Subscriptions will work after creator accounts are added."));
+document.getElementById("historyBtn").addEventListener("click",()=>toast("Watch history will be added with account storage."));
+document.getElementById("watchLaterBtn").addEventListener("click",()=>{const names=videos.filter(v=>watchLater.includes(v.id)).map(v=>v.title);alert(names.length?"Watch Later:\\n"+names.join("\\n"):"Your Watch Later list is empty.")});
+document.getElementById("likedBtn").addEventListener("click",()=>{const names=videos.filter(v=>liked.includes(v.id)).map(v=>v.title);alert(names.length?"Liked videos:\\n"+names.join("\\n"):"You haven't liked any videos yet.")});
+document.querySelector('[data-mobile="home"]').addEventListener("click",()=>{activeCategory="All";searchTerm="";document.getElementById("searchInput").value="";updateChip();renderVideos();window.scrollTo({top:0,behavior:"smooth"})});
+document.querySelector('[data-mobile="shorts"]').addEventListener("click",()=>document.getElementById("shortsSection").scrollIntoView({behavior:"smooth"}));
+document.querySelector('[data-mobile="subscriptions"]').addEventListener("click",()=>toast("Subscriptions need account/backend setup."));
+document.querySelector('[data-mobile="you"]').addEventListener("click",()=>toast("Your profile and account features are a demo."));
+document.getElementById("voiceSearch").addEventListener("click",()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast("Voice search is not supported in this browser.");return}const r=new SR();r.lang="en-PK";r.onresult=e=>{const text=e.results[0][0].transcript;document.getElementById("searchInput").value=text;searchTerm=text.toLowerCase();renderVideos()};r.onerror=()=>toast("Voice search could not hear you.");r.start()});
+document.getElementById("generateBtn").addEventListener("click",()=>{const topic=document.getElementById("ideaInput").value.trim();if(!topic){toast("Pehle video ka topic likhein.");return}document.getElementById("generatorOutput").textContent=`VIDEO IDEA: ${topic}\\n\\nHOOK (first 5 seconds): “Aaj aapko ${topic} ke baare mein ek aisi baat dikhayenge jo aap ne pehle nahi dekhi!”\\n\\nVIDEO OUTLINE:\\n1. Short introduction and setting\\n2. Show the most interesting moment\\n3. Share a useful fact or personal reaction\\n4. End with a question for viewers\\n\\nTITLE IDEA: ${topic} | VIDTUBE Special\\nTHUMBNAIL TEXT: “Yeh Zaroor Dekhein!”\\n\\nNote: This is a local starter template, not AI-generated content. Connect a secure backend to use a Hugging Face model.`});
+function toggleSidebar(){document.getElementById("sidebar").classList.toggle("collapsed");toast("Menu toggled")}
+renderVideos();renderShorts();
 </script>
 </body>
 </html>
