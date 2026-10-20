@@ -3,53 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIDTUBE - Watch, Create, Share | YouTube Clone</title>
+<title>VIDTUBE - Watch, Create, Share</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial,sans-serif}
 body{background:#0f0f0f;color:#fff}
-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#0f0f0f;position:sticky;top:0;z-index:100}
+header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#0f0f0f;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:3px;font-weight:900;font-size:20px}
 .logo i{width:32px;height:22px;background:#ff0000;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
 .logo sup{font-size:10px;color:#aaa;margin-left:4px;font-weight:400}
-.search{flex:1;max-width:640px;display:flex;margin:0 20px}
+.search{flex:1;max-width:640px;display:flex;margin:0 10px}
 .search input{flex:1;height:40px;background:#121212;border:1px solid #303030;border-radius:20px 0 0 20px;padding:0 16px;color:#fff;outline:none;font-size:16px}
-.search button{width:64px;height:40px;background:#222222;border:1px solid #303030;border-left:none;border-radius:0 20px 20px 0;color:#f1f1f1;cursor:pointer}
-.mic{width:40px;height:40px;background:#272727;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:10px;cursor:pointer}
-.right{display:flex;align-items:center;gap:20px;font-size:20px}
+.search button{width:50px;height:40px;background:#222222;border:1px solid #303030;border-left:none;border-radius:0 20px 20px 0;color:#f1f1f1;cursor:pointer}
+.mic,.right i{display:none}
+@media(min-width:700px){.mic,.right i{display:flex}}
+.mic{width:40px;height:40px;background:#272727;border-radius:50%;align-items:center;justify-content:center;margin-left:8px;cursor:pointer}
+.right{display:flex;align-items:center;gap:16px;font-size:20px}
 .right .avatar{width:32px;height:32px;background:linear-gradient(45deg,#ff0000,#ff6a00);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
-.chips{height:56px;display:flex;align-items:center;gap:8px;padding:0 16px;overflow-x:auto;white-space:nowrap;background:#0f0f0f;border-top:1px solid #212121;border-bottom:1px solid #212121;position:sticky;top:56px;z-index:99}
+.chips{height:56px;display:flex;align-items:center;gap:8px;padding:0 12px;overflow-x:auto;white-space:nowrap;background:#0f0f0f;border-top:1px solid #212121;border-bottom:1px solid #212121;position:sticky;top:56px;z-index:99}
 .chips::-webkit-scrollbar{display:none}
 .chips button{padding:8px 12px;background:#272727;color:#f1f1f1;border:none;border-radius:8px;font-size:14px;cursor:pointer;flex-shrink:0}
 .chips button.active{background:#fff;color:#0f0f0f}
-.container{display:flex}
-.sidebar{width:240px;min-width:240px;padding:12px;height:calc(100vh - 56px);position:sticky;top:56px;overflow-y:auto;display:none}
-@media(min-width:1100px){.sidebar{display:block}}
-.sidebar-item{display:flex;align-items:center;gap:20px;padding:9px 12px;border-radius:10px;font-size:14px;cursor:pointer}
-.sidebar-item.active,.sidebar-item:hover{background:#272727}
-.sidebar hr{border:none;border-top:1px solid #212121;margin:12px 0}
-.sidebar h3{padding:8px 12px;font-size:16px}
-.main{flex:1}
-.hero{margin:16px;padding:24px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:16px;border:1px solid #212121}
-.hero h1{font-size:32px;font-weight:900;margin-bottom:8px}
-.hero p{color:#aaa;font-size:16px;margin-bottom:16px}
-.hero button{padding:10px 20px;background:#fff;color:#000;border:none;border-radius:20px;font-weight:700;cursor:pointer}
-.section{padding:16px}
-.section h2{font-size:20px;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.card{cursor:pointer;border-radius:12px;overflow:hidden;transition:0.2s}
-.card:hover{transform:translateY(-3px)}
-.thumb{width:100%;aspect-ratio:16/9;background:#181818;border-radius:12px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;text-align:center;padding:10px}
+.main{flex:1;max-width:100%}
+.hero{margin:12px;padding:20px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:16px;border:1px solid #212121}
+.hero h1{font-size:26px;font-weight:900;margin-bottom:6px}
+.hero p{color:#aaa;font-size:14px;margin-bottom:12px}
+.hero button{padding:8px 16px;background:#fff;color:#000;border:none;border-radius:20px;font-weight:700;cursor:pointer;font-size:14px}
+.section{padding:0 0 16px 0}
+.section h2{font-size:18px;padding:12px}
+.grid{display:flex;flex-direction:column;gap:0}
+.card{cursor:pointer;overflow:hidden;margin-bottom:0;background:transparent;border-bottom:8px solid #1f1f1f}
+.thumb{width:100%;aspect-ratio:16/9;background:#181818;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;text-align:center}
 .time{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.8);padding:2px 6px;border-radius:4px;font-size:12px}
 .live{position:absolute;top:8px;left:8px;background:#ff0000;padding:2px 6px;border-radius:4px;font-size:12px;font-weight:700}
-.info{display:flex;gap:12px;padding:12px 0}
+.info{display:flex;gap:12px;padding:12px}
 .av{width:36px;height:36px;background:#333;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700}
-.title{font-size:16px;font-weight:500;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.channel{font-size:14px;color:#aaa;margin-top:6px}
+.title{font-size:16px;font-weight:500;line-height:1.3}
+.channel{font-size:14px;color:#aaa;margin-top:4px}
 .meta{font-size:14px;color:#aaa;margin-top:2px}
-.generator{margin:16px;background:#1f1f1f;padding:20px;border-radius:16px;border:1px solid #333}
-.generator input{width:100%;padding:14px;border-radius:24px;border:1px solid #444;background:#121212;color:#fff;font-size:15px}
-.generator button{margin-top:12px;padding:12px 24px;background:#ff0000;color:#fff;border:none;border-radius:24px;font-weight:700;cursor:pointer}
+.generator{margin:12px;background:#1f1f1f;padding:16px;border-radius:12px;border:1px solid #333}
+.generator input{width:100%;padding:12px;border-radius:24px;border:1px solid #444;background:#121212;color:#fff;font-size:15px}
+.generator button{margin-top:10px;padding:10px 20px;background:#ff0000;color:#fff;border:none;border-radius:24px;font-weight:700;cursor:pointer}
+@media(min-width:700px){
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:0 16px}
+.card{border-radius:12px;margin-bottom:0;border-bottom:none;background:#0f0f0f}
+.thumb{border-radius:12px}
+}
 </style>
 </head>
 <body>
@@ -59,45 +58,26 @@ header{height:56px;display:flex;align-items:center;justify-content:space-between
 <div class="right"><i class="fa-solid fa-video"></i><i class="fa-regular fa-bell"></i><div class="avatar">A</div></div>
 </header>
 <div class="chips">
-<button class="active">All</button><button>Music</button><button>Trending</button><button>Pakistani Dramas</button><button>Desi Vlogs</button><button>Comedy</button><button>Islamic</button><button>AI Stories</button><button>Live</button><button>Gaming</button><button>News</button><button>Recently Uploaded</button>
-</div>
-<div class="container">
-<div class="sidebar">
-<div class="sidebar-item active"><i class="fa-solid fa-house"></i> Home</div>
-<div class="sidebar-item"><i class="fa-solid fa-bolt"></i> Shorts</div>
-<div class="sidebar-item"><i class="fa-solid fa-tv"></i> Subscriptions</div>
-<hr>
-<div class="sidebar-item"><i class="fa-solid fa-clock-rotate-left"></i> History</div>
-<div class="sidebar-item"><i class="fa-solid fa-list"></i> Playlists</div>
-<div class="sidebar-item"><i class="fa-solid fa-video"></i> Your videos</div>
+<button class="active">All</button><button>Music</button><button>Trending</button><button>Pakistani Dramas</button><button>Desi Vlogs</button><button>Comedy</button><button>Islamic</button><button>AI Stories</button>
 </div>
 <div class="main">
-<div class="hero"><h1>Watch. Create. Share.</h1><p>Pakistan's First AI Video Platform - VIDTUBE</p><button><i class="fa-solid fa-rocket"></i> Start Creating</button></div>
+<div class="hero"><h1>Watch. Create. Share.</h1><p>Pakistan's First AI Video Platform</p><button><i class="fa-solid fa-rocket"></i> Start Creating</button></div>
 <div class="section">
 <h2>Trending Videos 🔥</h2>
 <div class="grid">
-<div class="card" onclick="location.href='watch.html?t=Gaon Ka Samosa Wala Ameer Ho Gaya'"><div class="thumb" style="background:linear-gradient(45deg,#ff9a9e,#fecfef)">SAMOSA WALA STORY<div class="time">12:24</div></div><div class="info"><div class="av">V</div><div class="t"><div class="title">Gaon Ka Samosa Wala Ameer Ho Gaya - AI Desi Kahani Full HD</div><div class="channel">VIDTUBE Stories ✓</div><div class="meta">1.2M views • 2 days ago</div></div></div></div>
-
-<div class="card" onclick="location.href='watch.html?t=Nani Aur Bhoot Ki Chai - Funny Horror Story'"><div class="thumb" style="background:linear-gradient(45deg,#a1c4fd,#c2e9fb)">BHOOT AUR CHAI<div class="time">8:15</div></div><div class="info"><div class="av">K</div><div class="t"><div class="title">Nani Aur Bhoot Ki Chai - Funny Horror Story | Bachon Ke Liye</div><div class="channel">Kahani Wali</div><div class="meta">890K views • 5 days ago</div></div></div></div>
-
-<div class="card" onclick="location.href='watch.html?t=Chai Wale Ka Pyar - 90s Love Story'"><div class="thumb" style="background:linear-gradient(45deg,#ffecd2,#fcb69f)">CHAI WALA LOVE<div class="time">15:42</div></div><div class="info"><div class="av">C</div><div class="t"><div class="title">Chai Wale Ka Pyar - 90s Love Story | Village Love Story</div><div class="channel">Chai Lover</div><div class="meta">2.1M views • 1 week ago</div></div></div></div>
-
-<div class="card" onclick="location.href='watch.html?t=90s School Memories - Bachpan Ke Din'"><div class="thumb" style="background:linear-gradient(45deg,#84fab0,#8fd3f4)">SCHOOL MEMORIES<div class="live">LIVE</div><div class="time">10:05</div></div><div class="info"><div class="av">S</div><div class="t"><div class="title">90s School Memories - Bachpan Ke Din | Emotional Story</div><div class="channel">Bachpan</div><div class="meta">12K watching • Started 30 min ago</div></div></div></div>
-
-<div class="card" onclick="location.href='watch.html?t=Truck Driver Ki Dua Qabool Ho Gayi'"><div class="thumb" style="background:linear-gradient(45deg,#f6d365,#fda085)">TRUCK DRIVER DUA<div class="time">20:18</div></div><div class="info"><div class="av">T</div><div class="t"><div class="title">Truck Driver Ki Dua Qabool Ho Gayi - Islamic Story - Dil Ko Chu Jane Wali</div><div class="channel">Islamic VIDTUBE ✓</div><div class="meta">3.4M views • 2 weeks ago</div></div></div></div>
-
-<div class="card" onclick="location.href='watch.html?t=Billi Ka Badla - Funny AI Cartoon'"><div class="thumb" style="background:linear-gradient(45deg,#e0c3fc,#8ec5fc)">BILLI KA BADLA<div class="time">5:33</div></div><div class="info"><div class="av">B</div><div class="t"><div class="title">Billi Ka Badla - Funny AI Cartoon | Cat Comedy Video 2026</div><div class="channel">Funny Cats PK</div><div class="meta">1.8M views • 1 day ago</div></div></div></div>
+<div class="card" onclick="location.href='watch.html?t=Gaon Ka Samosa Wala Ameer Ho Gaya'"><div class="thumb" style="background:linear-gradient(45deg,#ff9a9e,#fecfef)">SAMOSA WALA STORY<div class="time">12:24</div></div><div class="info"><div class="av">V</div><div><div class="title">Gaon Ka Samosa Wala Ameer Ho Gaya - AI Desi Kahani Full HD</div><div class="channel">VIDTUBE Stories ✓</div><div class="meta">1.2M views • 2 days ago</div></div></div></div>
+<div class="card" onclick="location.href='watch.html?t=Bhoot Aur Chai'"><div class="thumb" style="background:linear-gradient(45deg,#a1c4fd,#c2e9fb)">BHOOT AUR CHAI<div class="time">8:15</div></div><div class="info"><div class="av">K</div><div><div class="title">Nani Aur Bhoot Ki Chai - Funny Horror Story</div><div class="channel">Kahani Wali</div><div class="meta">890K views • 5 days ago</div></div></div></div>
+<div class="card" onclick="location.href='watch.html?t=Chai Wale Ka Pyar'"><div class="thumb" style="background:linear-gradient(45deg,#ffecd2,#fcb69f)">CHAI WALA LOVE<div class="time">15:42</div></div><div class="info"><div class="av">C</div><div><div class="title">Chai Wale Ka Pyar - 90s Love Story</div><div class="channel">Chai Lover</div><div class="meta">2.1M views • 1 week ago</div></div></div></div>
+<div class="card" onclick="location.href='watch.html?t=Truck Driver Ki Dua'"><div class="thumb" style="background:linear-gradient(45deg,#f6d365,#fda085)">TRUCK DRIVER DUA<div class="time">20:18</div></div><div class="info"><div class="av">T</div><div><div class="title">Truck Driver Ki Dua Qabool Ho Gayi - Islamic Story</div><div class="channel">Islamic VIDTUBE ✓</div><div class="meta">3.4M views • 2 weeks ago</div></div></div></div>
 </div>
 </div>
-<div class="generator"><h3>🎬 FREE AI Video Generator</h3><input placeholder="Kahani likho: Gaon ka bacha jo samosa bechta hai..."><button>✨ Generate Video FREE</button></div>
+<div class="generator"><h3>🎬 FREE AI Video Generator</h3><input placeholder="Kahani likho..."><button>✨ Generate Video FREE</button></div>
 </div>
 </div>
-</body>
-  <script>
+<script>
 const searchInput = document.querySelector('.search input');
 const cards = document.querySelectorAll('.card');
 const chips = document.querySelectorAll('.chips button');
-
 searchInput.addEventListener('input', (e)=>{
   const q = e.target.value.toLowerCase();
   cards.forEach(card=>{
@@ -105,7 +85,6 @@ searchInput.addEventListener('input', (e)=>{
     card.style.display = title.includes(q) ? 'block' : 'none';
   });
 });
-
 chips.forEach(chip=>{
   chip.addEventListener('click', ()=>{
     chips.forEach(c=>c.classList.remove('active'));
@@ -119,4 +98,5 @@ chips.forEach(chip=>{
   });
 });
 </script>
+</body>
 </html>
