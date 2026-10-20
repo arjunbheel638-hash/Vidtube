@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIDTUBE - Watch Videos</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080d14;color:white;font-family:Arial,sans-serif}
+header{background:#101923;padding:16px;display:flex;align-items:center;gap:15px;flex-wrap:wrap;position:sticky;top:0}
+.logo{font-size:27px;font-weight:bold;color:#ff1744}
+.logo span{color:white}
+input{padding:13px;border-radius:25px;border:1px solid #394553;background:#202b38;color:white;flex:1;min-width:150px}
+button{cursor:pointer;border:0;border-radius:8px;padding:10px 15px;font-weight:bold}
+nav{display:flex;gap:10px;padding:15px;overflow:auto}
+nav button{background:#202b38;color:white;white-space:nowrap}
+nav button.active{background:#ff1744}
+.layout{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:15px}
+aside button{display:block;width:100%;text-align:left;margin-bottom:10px;background:transparent;color:white;font-size:15px}
+h2{margin-top:10px}
+.hero{background:linear-gradient(120deg,#102c4a,#162039);padding:30px;border-radius:15px;margin-bottom:25px}
+.hero h1{font-size:35px;margin:8px 0;color:#ff3157}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:#121c28;border-radius:12px;overflow:hidden}
+.thumb{height:135px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#165078,#38264d)}
+.card h3{font-size:16px;padding:0 12px}
+.card p{color:#aab6c5;padding:0 12px;font-size:13px}
+.card button{margin:0 8px 12px;background:#ff1744;color:white}
+#upload{display:none;background:#121c28;padding:20px;border-radius:12px;margin-bottom:20px}
+#upload input{width:100%;margin:8px 0}
+@media(max-width:650px){.layout{grid-template-columns:1fr}aside{display:flex;gap:5px;overflow:auto}aside button{min-width:max-content;width:auto}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.thumb{height:110px}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">▶ VID<span>TUBE</span></div>
+<input id="search" placeholder="Search videos..." oninput="searchVideos()">
+<button onclick="showUpload()">＋ Upload</button>
+</header>
+<nav>
+<button class="active" onclick="filterVideos('All',this)">All</button>
+<button onclick="filterVideos('Vlogs',this)">Vlogs</button>
+<button onclick="filterVideos('Gaming',this)">Gaming</button>
+<button onclick="filterVideos('Music',this)">Music</button>
+<button onclick="filterVideos('Cooking',this)">Cooking</button>
+<button onclick="filterVideos('Technology',this)">Technology</button>
+</nav>
+<div class="layout">
+<aside>
+<button onclick="filterVideos('All')">🏠 Home</button>
+<button onclick="filterVideos('All')">🔥 Explore</button>
+<button onclick="filterVideos('Shorts')">🎬 Shorts</button>
+<button onclick="filterVideos('All')">📺 Subscriptions</button>
+<button onclick="alert('Watch history will be added in a future update.')">🕘 History</button>
+</aside>
+<main>
+<section class="hero">
+<p>WELCOME TO VIDTUBE</p>
+<h1>Watch. Create. Share.</h1>
+<p>Your video community starts here.</p>
+<button style="background:#ff1744;color:white" onclick="showUpload()">＋ Upload a Video</button>
+</section>
+<section id="upload">
+<h2>Upload a video</h2>
+<input id="videoTitle" placeholder="Video title">
+<input id="videoCategory" placeholder="Category e.g. Vlogs">
+<input id="videoFile" type="file" accept="video/*">
+<button onclick="addVideo()" style="background:#ff1744;color:white">Add Video</button>
+<button onclick="hideUpload()">Cancel</button>
+<p id="message"></p>
+</section>
+<h2>🔥 Trending Videos</h2>
+<div class="grid" id="videos"></div>
+</main>
+</div>
+<script>
+let data=[
+{title:"Beautiful Pakistan | Travel Vlog",category:"Vlogs",icon:"🏔️",views:"12K views"},
+{title:"My First Village Vlog",category:"Vlogs",icon:"🌾",views:"8.5K views"},
+{title:"Gaming Highlights",category:"Gaming",icon:"🎮",views:"24K views"},
+{title:"Delicious Village Cooking",category:"Cooking",icon:"🍲",views:"5.2K views"},
+{title:"Latest Technology Review",category:"Technology",icon:"📱",views:"15K views"},
+{title:"Music and Relaxing Sounds",category:"Music",icon:"🎵",views:"3.1K views"}
+];
+let chosen="All",urls=[];
+function render(){
+let q=document.getElementById('search').value.toLowerCase();
+let list=data.filter(v=>(chosen==="All"||v.category===chosen||chosen==="Shorts")&&v.title.toLowerCase().includes(q));
+document.getElementById('videos').innerHTML=list.map(v=>`<article class="card"><div class="thumb">${v.icon}</div><h3>${v.title}</h3><p>${v.views} · ${v.category}</p><button onclick="playVideo('${v.title.replace(/'/g,"")}')">▶ Watch</button></article>`).join('')||'<p>No videos found.</p>';
+}
+function filterVideos(c,b){chosen=c;if(b){document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}render()}
+function searchVideos(){render()}
+function showUpload(){document.getElementById('upload').style.display='block'}
+function hideUpload(){document.getElementById('upload').style.display='none'}
+function addVideo(){
+let title=document.getElementById('videoTitle').value.trim();
+let file=document.getElementById('videoFile').files[0];
+let cat=document.getElementById('videoCategory').value.trim()||'Vlogs';
+if(!title||!file){document.getElementById('message').textContent='Title aur video file dono select karein.';return}
+let url=URL.createObjectURL(file);urls.push(url);
+data.unshift({title,category:cat,icon:'🎬',views:'New video',url});
+document.getElementById('message').textContent='Video is browser mein add ho gayi hai.';
+render();
+}
+function playVideo(title){
+let v=data.find(x=>x.title===title);
+if(!v)return;
+if(v.url){let w=window.open('','_blank');w.document.write('<title>'+v.title+'</title><video controls autoplay style="width:100%" src="'+v.url+'"></video>')}
+else alert('Ye demo video card hai. Asli video playback ke liye uploaded video ya video URL chahiye.');
+}
+render();
+</script>
+</body>
+</html>
