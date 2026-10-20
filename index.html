@@ -93,4 +93,30 @@ header{height:56px;display:flex;align-items:center;justify-content:space-between
 </div>
 </div>
 </body>
+  <script>
+const searchInput = document.querySelector('.search input');
+const cards = document.querySelectorAll('.card');
+const chips = document.querySelectorAll('.chips button');
+
+searchInput.addEventListener('input', (e)=>{
+  const q = e.target.value.toLowerCase();
+  cards.forEach(card=>{
+    const title = card.querySelector('.title').innerText.toLowerCase();
+    card.style.display = title.includes(q) ? 'block' : 'none';
+  });
+});
+
+chips.forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    chips.forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const filter = chip.innerText.toLowerCase();
+    cards.forEach(card=>{
+      if(filter==='all'){card.style.display='block'; return;}
+      const title = card.querySelector('.title').innerText.toLowerCase();
+      card.style.display = title.includes(filter) ? 'block' : 'none';
+    });
+  });
+});
+</script>
 </html>
