@@ -8,15 +8,9 @@ export default async function handler(req, res) {
 
   const query = String(req.query.q || "").trim();
 
-  if (!query) {
+  if (!query || query.length > 200) {
     return res.status(400).json({
-      error: "Search query is required"
-    });
-  }
-
-  if (query.length > 200) {
-    return res.status(400).json({
-      error: "Search query is too long"
+      error: "Enter a search query under 200 characters"
     });
   }
 
@@ -44,11 +38,7 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error(
-        "YouTube API error:",
-        data.error?.code
-      );
-
+      console.error("YouTube API error:", data.error?.code);
       return res.status(502).json({
         error: "YouTube search failed"
       });
@@ -69,7 +59,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ videos });
   } catch (error) {
     console.error("Search error:", error.message);
-
     return res.status(500).json({
       error: "Internal server error"
     });
