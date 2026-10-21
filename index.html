@@ -1,656 +1,75 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIDTUBE - Watch Videos</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --bg: #0f0f0f;
-  --panel: #181818;
-  --hover: #272727;
-  --text: #f1f1f1;
-  --muted: #aaa;
-  --red: #ff0033;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Roboto, Arial, sans-serif;
-}
-
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  color: var(--text);
-  border: none;
-}
-
-.topbar {
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 0 22px;
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 24px;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.logo-icon {
-  background: var(--red);
-  color: white;
-  padding: 5px 9px;
-  border-radius: 10px;
-  font-size: 17px;
-}
-
-.logo span:last-child {
-  color: white;
-}
-
-.search-area {
-  display: flex;
-  flex: 1;
-  max-width: 650px;
-  margin: auto;
-}
-
-.search-area input {
-  min-width: 0;
-  flex: 1;
-  height: 42px;
-  background: #121212;
-  border: 1px solid #333;
-  border-radius: 24px 0 0 24px;
-  padding: 0 18px;
-  color: white;
-  outline: none;
-}
-
-.search-area input:focus {
-  border-color: #3d65b5;
-}
-
-.search-btn {
-  width: 64px;
-  background: #272727;
-  border-radius: 0 24px 24px 0;
-  font-size: 18px;
-}
-
-.round-btn {
-  background: var(--hover);
-  border-radius: 50%;
-  min-width: 40px;
-  height: 40px;
-  font-size: 18px;
-}
-
-.round-btn:hover, .search-btn:hover {
-  background: #383838;
-}
-
-.profile {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #6654c7;
-  display: grid;
-  place-items: center;
-  font-weight: bold;
-}
-
-.layout {
-  display: flex;
-}
-
-.sidebar {
-  width: 220px;
-  flex-shrink: 0;
-  padding: 12px;
-  position: fixed;
-  top: 64px;
-  bottom: 0;
-  overflow-y: auto;
-}
-
-.side-item {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 13px;
-  margin-bottom: 4px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.side-item:hover, .side-item.active {
-  background: var(--hover);
-}
-
-.side-item .icon {
-  font-size: 20px;
-  width: 24px;
-  text-align: center;
-}
-
-.sidebar hr {
-  border: 0;
-  border-top: 1px solid #333;
-  margin: 12px 0;
-}
-
-.main {
-  margin-left: 220px;
-  width: calc(100% - 220px);
-  padding: 14px 24px 40px;
-}
-
-.categories {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  position: sticky;
-  top: 64px;
-  z-index: 5;
-  background: var(--bg);
-  padding: 5px 0 18px;
-  scrollbar-width: none;
-}
-
-.categories::-webkit-scrollbar {
-  display: none;
-}
-
-.category {
-  white-space: nowrap;
-  padding: 9px 15px;
-  border-radius: 9px;
-  background: #272727;
-  font-size: 14px;
-}
-
-.category:hover {
-  background: #3f3f3f;
-}
-
-.category.active {
-  background: white;
-  color: #111;
-}
-
-.hero {
-  min-height: 190px;
-  border-radius: 18px;
-  padding: 30px;
-  margin: 4px 0 28px;
-  background: linear-gradient(120deg, #40115c, #b51b40, #ff6937);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  overflow: hidden;
-}
-
-.hero h1 {
-  font-size: clamp(26px, 4vw, 42px);
-  margin-bottom: 12px;
-}
-
-.hero p {
-  color: #f7eaf1;
-  line-height: 1.6;
-}
-
-.hero button {
-  margin-top: 18px;
-  padding: 11px 18px;
-  border-radius: 25px;
-  background: white;
-  color: #222;
-  font-weight: 700;
-}
-
-.hero-art {
-  font-size: clamp(60px, 10vw, 110px);
-}
-
-.section-title {
-  font-size: 22px;
-  margin: 24px 0 18px;
-}
-
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 25px 16px;
-}
-
-.video-card {
-  min-width: 0;
-  cursor: pointer;
-}
-
-.thumbnail {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 12px;
-  position: relative;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  font-size: 48px;
-  transition: transform .2s;
-}
-
-.video-card:hover .thumbnail {
-  transform: scale(1.02);
-}
-
-.thumbnail .play {
-  background: #0008;
-  border-radius: 50%;
-  width: 55px;
-  height: 55px;
-  display: grid;
-  place-items: center;
-  font-size: 25px;
-}
-
-.duration {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  background: #000c;
-  border-radius: 4px;
-  padding: 4px 6px;
-  font-size: 12px;
-}
-
-.video-info {
-  display: flex;
-  gap: 12px;
-  padding-top: 12px;
-}
-
-.channel-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #333;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-.video-info h3 {
-  font-size: 15px;
-  line-height: 1.45;
-  margin-bottom: 7px;
-  font-weight: 500;
-}
-
-.video-info p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.shorts-heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 40px;
-}
-
-.shorts-heading h2 {
-  font-size: 22px;
-}
-
-.shorts-row {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  padding: 18px 0;
-}
-
-.short-card {
-  flex: 0 0 160px;
-  cursor: pointer;
-}
-
-.short-thumb {
-  width: 160px;
-  height: 280px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-size: 45px;
-}
-
-.short-card h3 {
-  font-size: 14px;
-  line-height: 1.4;
-  margin-top: 10px;
-}
-
-.short-card p {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.upload-box {
-  background: var(--panel);
-  border: 1px solid #333;
-  border-radius: 14px;
-  padding: 20px;
-  margin-top: 35px;
-}
-
-.upload-box h2 {
-  margin-bottom: 12px;
-}
-
-.upload-box p {
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 14px;
-}
-
-.upload-box input,
-.upload-box select {
-  padding: 12px;
-  background: #101010;
-  color: white;
-  border: 1px solid #444;
-  border-radius: 8px;
-  margin: 5px 5px 5px 0;
-  max-width: 100%;
-}
-
-.primary-btn {
-  padding: 12px 18px;
-  background: var(--red);
-  border-radius: 8px;
-  font-weight: 700;
-  margin: 5px 0;
-}
-
-.empty {
-  padding: 25px;
-  color: var(--muted);
-  text-align: center;
-  display: none;
-}
-
-.mobile-nav {
-  display: none;
-}
-
-@media (max-width: 1200px) {
-  .video-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 900px) {
-  .sidebar {
-    width: 75px;
-    padding: 8px;
-  }
-
-  .side-item {
-    justify-content: center;
-    padding: 14px 5px;
-  }
-
-  .side-item .label,
-  .sidebar hr {
-    display: none;
-  }
-
-  .main {
-    margin-left: 75px;
-    width: calc(100% - 75px);
-    padding: 12px 15px 30px;
-  }
-
-  .video-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hero {
-    padding: 22px;
-  }
-}
-
-@media (max-width: 600px) {
-  .topbar {
-    height: 56px;
-    padding: 0 10px;
-    gap: 10px;
-  }
-
-  .logo {
-    font-size: 19px;
-  }
-
-  .logo-icon {
-    font-size: 14px;
-    padding: 5px 7px;
-  }
-
-  .search-area input {
-    height: 36px;
-    padding: 0 10px;
-    font-size: 13px;
-  }
-
-  .search-btn {
-    width: 38px;
-  }
-
-  .topbar .round-btn {
-    display: none;
-  }
-
-  .profile {
-    width: 32px;
-    height: 32px;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .main {
-    margin-left: 0;
-    width: 100%;
-    padding: 10px 10px 85px;
-  }
-
-  .categories {
-    top: 56px;
-    gap: 8px;
-    padding-bottom: 12px;
-  }
-
-  .category {
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-
-  .hero {
-    min-height: 155px;
-    padding: 18px;
-    border-radius: 13px;
-  }
-
-  .hero h1 {
-    font-size: 25px;
-  }
-
-  .hero p {
-    font-size: 13px;
-  }
-
-  .hero-art {
-    font-size: 55px;
-  }
-
-  .hero button {
-    padding: 9px 13px;
-  }
-
-  .section-title, .shorts-heading h2 {
-    font-size: 19px;
-  }
-
-  .video-grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .thumbnail {
-    border-radius: 10px;
-  }
-
-  .video-info h3 {
-    font-size: 15px;
-  }
-
-  .mobile-nav {
-    position: fixed;
-    display: flex;
-    justify-content: space-around;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
-    background: #161616;
-    border-top: 1px solid #333;
-    z-index: 20;
-  }
-
-  .mobile-nav button {
-    background: transparent;
-    display: grid;
-    gap: 4px;
-    justify-items: center;
-    font-size: 11px;
-  }
-
-  .mobile-nav span {
-    font-size: 20px;
-  }
-
-  .short-card {
-    flex-basis: 145px;
-  }
-
-  .short-thumb {
-    width: 145px;
-    height: 255px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f0f0f">
+  <meta name="description" content="VIDTUBE - Discover videos, Shorts, music and creators.">
+  <title>VIDTUBE - Watch Videos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header class="topbar">
-  <div class="logo" onclick="location.href='index.html'">
-    <span class="logo-icon">▶</span>
-    <span>VIDTUBE</span>
-  </div>
-
-  <form class="search-area" id="searchForm">
+  <a class="logo" href="index.html"><span class="logo-icon">▶</span> VIDTUBE</a>
+  <form id="searchForm" class="search-area">
     <input id="searchInput" type="search" placeholder="Search videos..." aria-label="Search videos">
-    <button class="search-btn" aria-label="Search">⌕</button>
+    <button class="search-btn" type="submit">⌕</button>
   </form>
-
-  <button class="round-btn" onclick="voiceSearch()" title="Voice search">🎙️</button>
-  <button class="round-btn" onclick="document.getElementById('uploadTitle').focus()" title="Upload">＋</button>
-  <button class="round-btn" onclick="alert('Notifications feature will be added in Step 2')" title="Notifications">🔔</button>
-  <div class="profile" title="VIDTUBE profile">V</div>
+  <button class="round-btn" id="voiceBtn" title="Voice search">🎙️</button>
+  <a class="round-btn create-btn" href="#uploadBox" title="Create">＋</a>
+  <button class="round-btn" id="profileBtn" title="Profile">👤</button>
 </header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <div class="side-item active" onclick="showAll()"><span class="icon">⌂</span><span class="label">Home</span></div>
-    <div class="side-item" onclick="scrollToShorts()"><span class="icon">▶</span><span class="label">Shorts</span></div>
-    <div class="side-item" onclick="filterCategory('Music')"><span class="icon">♫</span><span class="label">Music</span></div>
-    <div class="side-item" onclick="filterCategory('Trending')"><span class="icon">🔥</span><span class="label">Trending</span></div>
-    <hr>
-    <div class="side-item" onclick="alert('Subscriptions will be available in Step 2')"><span class="icon">▣</span><span class="label">Subscriptions</span></div>
-    <div class="side-item" onclick="showSaved()"><span class="icon">◷</span><span class="label">Watch Later</span></div>
-    <div class="side-item" onclick="showLiked()"><span class="icon">♡</span><span class="label">Liked Videos</span></div>
-    <hr>
-    <div class="side-item" onclick="document.getElementById('uploadTitle').focus()"><span class="icon">⬆</span><span class="label">Upload Video</span></div>
-  </aside>
+<aside class="sidebar">
+  <button class="side-item active" data-view="home">⌂ <span>Home</span></button>
+  <button class="side-item" id="shortsNav">▶ <span>Shorts</span></button>
+  <button class="side-item" data-category="Music">♫ <span>Music</span></button>
+  <button class="side-item" data-category="Trending">🔥 <span>Trending</span></button>
+  <hr>
+  <button class="side-item" data-view="saved">◷ <span>Watch Later</span></button>
+  <button class="side-item" data-view="liked">♡ <span>Liked Videos</span></button>
+  <a class="side-item" href="#uploadBox">⬆ <span>Upload Video</span></a>
+</aside>
 
-  <main class="main">
-    <nav class="categories" id="categories">
-      <button class="category active" onclick="filterCategory('All',this)">All</button>
-      <button class="category" onclick="filterCategory('Music',this)">🎵 Music</button>
-      <button class="category" onclick="filterCategory('Trending',this)">🔥 Trending</button>
-      <button class="category" onclick="filterCategory('Pakistani Dramas',this)">Pakistani Dramas</button>
-      <button class="category" onclick="filterCategory('Desi Vlogs',this)">Desi Vlogs</button>
-      <button class="category" onclick="filterCategory('Comedy',this)">Comedy</button>
-      <button class="category" onclick="filterCategory('Islamic',this)">Islamic</button>
-      <button class="category" onclick="filterCategory('AI Stories',this)">AI Stories</button>
-    </nav>
+<main class="main">
+  <nav class="categories" id="categories">
+    <button class="category active" data-category="All">All</button>
+    <button class="category" data-category="Trending">🔥 Trending</button>
+    <button class="category" data-category="Music">🎵 Music</button>
+    <button class="category" data-category="Pakistani Dramas">Pakistani Dramas</button>
+    <button class="category" data-category="Desi Vlogs">Desi Vlogs</button>
+    <button class="category" data-category="Comedy">Comedy</button>
+    <button class="category" data-category="Islamic">Islamic</button>
+    <button class="category" data-category="AI Stories">AI Stories</button>
+  </nav>
 
-    <section class="hero">
-      <div>
-        <h1>Welcome to VIDTUBE</h1>
-        <p>Discover videos, music, stories and creators.<br>Your world of entertainment starts here.</p>
-        <button onclick="document.getElementById('videoGrid').scrollIntoView({behavior:'smooth'})">Explore Videos →</button>
-      </div>
-      <div class="hero-art">▶️</div>
-    </section>
+  <section class="hero">
+    <div>
+      <h1>Welcome to VIDTUBE</h1>
+      <p>Discover videos, music, stories and creators.</p>
+      <button class="primary-btn" id="exploreBtn">Explore Videos →</button>
+    </div>
+    <div class="hero-art">▶️</div>
+  </section>
 
-    <h2 class="section-title" id="gridTitle">Recommended Videos</h2>
-    <section class="video-grid" id="videoGrid"></section>
-    <div class="empty" id="emptyMessage">No videos found. Try another search.</div>
+  <h2 class="section-title" id="gridTitle">Recommended Videos</h2>
+  <section class="video-grid" id="videoGrid"></section>
+  <p class="empty" id="emptyMessage" hidden>No videos found. Try another search.</p>
 
-    <section id="shortsSection">
-      <div class="shorts-heading"><span style="font-size:25px">▶</span><h2>VIDTUBE Shorts</h2></div>
-      <div class="shorts-row" id="shortsRow"></div>
-    </section>
+  <section id="shortsSection">
+    <h2 class="section-title">▶ VIDTUBE Shorts</h2>
+    <div class="shorts-row" id="shortsRow"></div>
+  </section>
 
-    <section class="upload-box" id="uploadBox">
-      <h2>⬆️ Add a Video</h2>
-      <p>This demo lets you add a video title to your local feed. Real video uploads and hosting will be built in Step 2.</p>
-      <input id="uploadTitle" type="text" placeholder="Enter video title">
+  <section class="upload-box" id="uploadBox">
+    <h2>⬆️ Add a Video</h2>
+    <p>Add a video title and an optional direct video URL. This demo saves video details in this browser only.</p>
+    <form id="uploadForm">
+      <label for="uploadTitle">Video title</label>
+      <input id="uploadTitle" required maxlength="150" placeholder="Enter video title">
+
+      <label for="uploadCategory">Category</label>
       <select id="uploadCategory">
         <option>Desi Vlogs</option>
         <option>Music</option>
@@ -659,311 +78,30 @@ button {
         <option>Islamic</option>
         <option>AI Stories</option>
       </select>
-      <button class="primary-btn" onclick="addVideo()">Add to VIDTUBE</button>
-    </section>
 
-    <section class="upload-box">
-      <h2>✨ VIDTUBE AI Idea Generator</h2>
-      <p>Get a quick idea for your next video.</p>
-      <button class="primary-btn" onclick="generateIdea()">Generate Video Idea</button>
-      <p id="aiResult" style="margin-top:15px"></p>
-    </section>
-  </main>
-</div>
+      <label for="uploadUrl">Direct video URL (optional)</label>
+      <input id="uploadUrl" type="url" placeholder="https://example.com/video.mp4">
+
+      <button class="primary-btn" type="submit">Add Video</button>
+    </form>
+    <p id="uploadMessage" role="status"></p>
+  </section>
+
+  <section class="upload-box">
+    <h2>✨ VIDTUBE AI Idea Generator</h2>
+    <p>Get an idea for your next video.</p>
+    <button class="primary-btn" id="ideaBtn">Generate Video Idea</button>
+    <p id="aiResult" role="status"></p>
+  </section>
+</main>
 
 <nav class="mobile-nav">
-  <button onclick="showAll()"><span>⌂</span>Home</button>
-  <button onclick="scrollToShorts()"><span>▶</span>Shorts</button>
-  <button onclick="document.getElementById('uploadBox').scrollIntoView({behavior:'smooth'})"><span>＋</span>Create</button>
-  <button onclick="showSaved()"><span>◷</span>Library</button>
+  <button data-view="home"><span>⌂</span>Home</button>
+  <button id="mobileShorts"><span>▶</span>Shorts</button>
+  <a href="#uploadBox"><span>＋</span>Create</a>
+  <button data-view="saved"><span>◷</span>Library</button>
 </nav>
 
-<script>
-const defaultVideos = [
-  {title:"Beautiful Village Life | A Day in the Countryside",channel:"Village Stories",views:"125K views",age:"2 days ago",duration:"12:45",category:"Desi Vlogs",emoji:"🌾",bg:"linear-gradient(135deg,#315c32,#b7a65a)"},
-  {title:"Top Trending Music Mix 2026",channel:"Music World",views:"1.2M views",age:"1 day ago",duration:"18:20",category:"Music",emoji:"🎵",bg:"linear-gradient(135deg,#411b79,#e63c8c)"},
-  {title:"Pakistani Drama | Best Emotional Moments",channel:"Drama Central",views:"875K views",age:"3 days ago",duration:"9:18",category:"Pakistani Dramas",emoji:"🎭",bg:"linear-gradient(135deg,#164e63,#d97706)"},
-  {title:"Funny Moments That Will Make You Laugh",channel:"Fun Time",views:"540K views",age:"5 hours ago",duration:"8:42",category:"Comedy",emoji:"😂",bg:"linear-gradient(135deg,#f59e0b,#dc2626)"},
-  {title:"Amazing AI Animated Story | Never Give Up",channel:"AI Story Studio",views:"92K views",age:"1 day ago",duration:"6:33",category:"AI Stories",emoji:"🤖",bg:"linear-gradient(135deg,#075985,#7c3aed)"},
-  {title:"Peaceful Morning | Beautiful Recitation",channel:"Peaceful World",views:"230K views",age:"4 days ago",duration:"15:07",category:"Islamic",emoji:"🌙",bg:"linear-gradient(135deg,#064e3b,#0e7490)"},
-  {title:"Amazing Travel Adventure | Explore the World",channel:"Travel Now",views:"410K views",age:"2 days ago",duration:"14:20",category:"Trending",emoji:"🏞️",bg:"linear-gradient(135deg,#0369a1,#65a30d)"},
-  {title:"Best Cooking Ideas for the Whole Family",channel:"Home Kitchen",views:"86K views",age:"6 days ago",duration:"10:12",category:"Desi Vlogs",emoji:"🍲",bg:"linear-gradient(135deg,#9a3412,#eab308)"}
-];
-
-const shorts = [
-  {title:"A beautiful village morning",views:"1.2M views",emoji:"🌄",bg:"linear-gradient(160deg,#14532d,#a3e635)"},
-  {title:"Music beats 🎵",views:"850K views",emoji:"🎧",bg:"linear-gradient(160deg,#581c87,#ec4899)"},
-  {title:"Funny moment 😂",views:"2M views",emoji:"🤣",bg:"linear-gradient(160deg,#9a3412,#fbbf24)"},
-  {title:"AI magic world",views:"560K views",emoji:"🤖",bg:"linear-gradient(160deg,#1e3a8a,#a78bfa)"},
-  {title:"Food lovers 🍜",views:"340K views",emoji:"🍜",bg:"linear-gradient(160deg,#7c2d12,#fdba74)"},
-  {title:"Amazing nature",views:"910K views",emoji:"🌳",bg:"linear-gradient(160deg,#064e3b,#34d399)"}
-];
-
-let activeCategory = "All";
-let currentSearch = "";
-let viewMode = "all";
-
-function allVideos(){
-  let uploaded = [];
-  try { uploaded = JSON.parse(localStorage.getItem("vidtubeUploads") || "[]"); } catch(e){}
-  return [...uploaded, ...defaultVideos];
-}
-
-function openVideo(video){
-  const title = encodeURIComponent(video.title);
-  const id = encodeURIComponent(video.id || "");
-  location.href = "watch.html?t=" + title + "&id=" + id;
-}
-
-function renderVideos(){
-  const grid = document.getElementById("videoGrid");
-  const empty = document.getElementById("emptyMessage");
-  let videos = allVideos();
-
-  if(viewMode === "saved"){
-    const saved = JSON.parse(localStorage.getItem("vidtubeSaved") || "[]");
-    videos = videos.filter(v => saved.includes(v.title));
-    document.getElementById("gridTitle").textContent = "Watch Later";
-  } else if(viewMode === "liked"){
-    const liked = JSON.parse(localStorage.getItem("vidtubeLiked") || "[]");
-    videos = videos.filter(v => liked.includes(v.title));
-    document.getElementById("gridTitle").textContent = "Liked Videos";
-  } else {
-    document.getElementById("gridTitle").textContent =
-      activeCategory === "All" ? "Recommended Videos" : activeCategory + " Videos";
-  }
-
-  if(activeCategory !== "All" && viewMode === "all"){
-    videos = videos.filter(v => activeCategory === "Trending"
-      ? (v.category === "Trending" || parseViews(v.views) >= 500000)
-      : v.category === activeCategory);
-  }
-
-  if(currentSearch){
-    videos = videos.filter(v => (v.title + " " + v.channel + " " + v.category)
-      .toLowerCase().includes(currentSearch.toLowerCase()));
-  }
-
-  grid.innerHTML = "";
-  empty.style.display = videos.length ? "none" : "block";
-
-  videos.forEach(video => {
-    const card = document.createElement("article");
-    card.className = "video-card";
-    card.innerHTML = `
-      <div class="thumbnail" style="background:${video.bg || 'linear-gradient(135deg,#164e63,#7c3aed)'}">
-        <span>${escapeHTML(video.emoji || "▶️")}</span>
-        <span class="play">▶</span>
-        <span class="duration">${escapeHTML(video.duration || "Short")}</span>
-      </div>
-      <div class="video-info">
-        <div class="channel-avatar">${escapeHTML((video.channel || "V").charAt(0))}</div>
-        <div>
-          <h3>${escapeHTML(video.title)}</h3>
-          <p>${escapeHTML(video.channel || "VIDTUBE Creator")}</p>
-          <p>${escapeHTML(video.views || "New video")} · ${escapeHTML(video.age || "Just now")}</p>
-        </div>
-      </div>`;
-    card.addEventListener("click", () => openVideo(video));
-    grid.appendChild(card);
-  });
-}
-
-function parseViews(text){
-  const m = (text || "").match(/([\d.]+)\s*([KM]?)/i);
-  if(!m) return 0;
-  return Number(m[1]) * (m[2].toUpperCase()==="M" ? 1e6 : m[2].toUpperCase()==="K" ? 1e3 : 1);
-}
-
-function escapeHTML(text){
-  return String(text).replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-}
-
-function filterCategory(category, button){
-  activeCategory = category;
-  viewMode = "all";
-  document.querySelectorAll(".category").forEach(b => b.classList.remove("active"));
-  if(button) button.classList.add("active");
-  else {
-    document.querySelectorAll(".category").forEach(b => {
-      if(b.textContent.trim() === category) b.classList.add("active");
-    });
-  }
-  renderVideos();
-}
-
-function showAll(){
-  activeCategory = "All";
-  currentSearch = "";
-  viewMode = "all";
-  document.getElementById("searchInput").value = "";
-  document.querySelectorAll(".category").forEach(b => b.classList.remove("active"));
-  document.querySelector(".category").classList.add("active");
-  renderVideos();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function showSaved(){
-  viewMode = "saved";
-  activeCategory = "All";
-  renderVideos();
-  document.getElementById("gridTitle").scrollIntoView({behavior:"smooth"});
-}
-
-function showLiked(){
-  viewMode = "liked";
-  activeCategory = "All";
-  renderVideos();
-  document.getElementById("gridTitle").scrollIntoView({behavior:"smooth"});
-}
-
-function scrollToShorts(){
-  document.getElementById("shortsSection").scrollIntoView({behavior:"smooth"});
-}
-
-document.getElementById("searchForm").addEventListener("submit", function(e){
-  e.preventDefault();
-  currentSearch = document.getElementById("searchInput").value.trim();
-  viewMode = "all";
-  renderVideos();
-});
-
-document.getElementById("searchInput").addEventListener("input", function(){
-  currentSearch = this.value.trim();
-  viewMode = "all";
-  renderVideos();
-});
-
-function addVideo(){
-  const title = document.getElementById("uploadTitle").value.trim();
-  const category = document.getElementById("uploadCategory").value;
-  if(!title){
-    alert("Please enter a video title first.");
-    return;
-  }
-
-  const uploaded = JSON.parse(localStorage.getItem("vidtubeUploads") || "[]");
-  uploaded.unshift({
-    id:Date.now().toString(),
-    title,
-    category,
-    channel:"My VIDTUBE Channel",
-    views:"0 views",
-    age:"Just now",
-    duration:"New",
-    emoji:"🎬",
-    bg:"linear-gradient(135deg,#1d4ed8,#9333ea)"
-  });
-  localStorage.setItem("vidtubeUploads", JSON.stringify(uploaded));
-  document.getElementById("uploadTitle").value = "";
-  activeCategory = "All";
-  viewMode = "all";
-  renderVideos();
-  alert("Video title added to this browser. Real video uploading will be added in Step 2.");
-  document.getElementById("gridTitle").scrollIntoView({behavior:"smooth"});
-}
-
-const ideas = [
-  "A day in a beautiful village",
-  "Top 5 amazing facts about Pakistan",
-  "Funny family moments",
-  "A short inspirational story",
-  "Traditional food cooked at home",
-  "A peaceful morning in nature",
-  "An AI animated adventure"
-];
-
-function generateIdea(){
-  const idea = ideas[Math.floor(Math.random()*ideas.length)];
-  document.getElementById("aiResult").textContent = "Your next video idea: " + idea;
-}
-
-function voiceSearch(){
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRecognition){
-    alert("Voice search is not supported by this browser. Please use the search bar.");
-    return;
-  }
-  const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.onresult = e => {
-    const result = e.results[0][0].transcript;
-    document.getElementById("searchInput").value = result;
-    currentSearch = result;
-    renderVideos();
-  };
-  recognition.start();
-}
-
-function renderShorts(){
-  const row = document.getElementById("shortsRow");
-  shorts.forEach(short => {
-    const card = document.createElement("article");
-    card.className = "short-card";
-    card.innerHTML = `
-      <div class="short-thumb" style="background:${short.bg}">${short.emoji}</div>
-      <h3>${escapeHTML(short.title)}</h3>
-      <p>${escapeHTML(short.views)}</p>`;
-    card.onclick = () => location.href = "watch.html?t=" + encodeURIComponent(short.title);
-    row.appendChild(card);
-  });
-}
-
-renderVideos();
-renderShorts();
-
-async function searchYouTubeVideos() {
-  const input = document.getElementById("searchInput");
-  const query = input?.value.trim();
-
-  if (!query) {
-    alert("Video ka naam likhein");
-    return;
-  }
-
-  const grid = document.getElementById("videoGrid");
-  if (!grid) {
-    alert("Video grid ka ID check karein");
-    return;
-  }
-
-  grid.innerHTML = "<p>Searching...</p>";
-
-  try {
-    const response = await fetch(
-      "/api/search?q=" + encodeURIComponent(query)
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Search failed");
-    }
-
-    if (!data.videos || data.videos.length === 0) {
-      grid.innerHTML = "<p>No videos found.</p>";
-      return;
-    }
-
-    grid.innerHTML = data.videos.map(video => `
-      <article class="video-card">
-        <a href="${video.url}" target="_blank" rel="noopener">
-          <img src="${video.thumbnail}"
-               alt=""
-               style="width:100%;border-radius:10px">
-          <h3>${escapeHTML(video.title)}</h3>
-        </a>
-        <p>${escapeHTML(video.channel)}</p>
-      </article>
-    `).join("");
-
-  } catch (error) {
-    grid.innerHTML =
-      "<p>Search error: " + escapeHTML(error.message) + "</p>";
-  }
-}
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
