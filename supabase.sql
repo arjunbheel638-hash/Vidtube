@@ -1,4 +1,3 @@
-
 -- =========================================
 -- VIDTUBE DATABASE SETUP
 -- Supabase: Videos, Likes, Comments, Profiles
