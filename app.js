@@ -1,6 +1,6 @@
 "use strict";
 const SUPABASE_URL = "https://rorcpawwnzmuppyvifeb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_JHrXMbwe-yRe0oVVc5zWOA_9Bv1Bqmn
+const SUPABASE_KEY = "sb_publishable_JHrXMbwe-yRe0oVVc5zWOA_9Bv1Bqmn;
 
 const db = window.supabase.createClient(
   SUPABASE_URL,
