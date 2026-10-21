@@ -913,7 +913,57 @@ function renderShorts(){
 
 renderVideos();
 renderShorts();
-</script>
 
+async function searchYouTubeVideos() {
+  const input = document.getElementById("searchInput");
+  const query = input?.value.trim();
+
+  if (!query) {
+    alert("Video ka naam likhein");
+    return;
+  }
+
+  const grid = document.getElementById("videoGrid");
+  if (!grid) {
+    alert("Video grid ka ID check karein");
+    return;
+  }
+
+  grid.innerHTML = "<p>Searching...</p>";
+
+  try {
+    const response = await fetch(
+      "/api/search?q=" + encodeURIComponent(query)
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Search failed");
+    }
+
+    if (!data.videos || data.videos.length === 0) {
+      grid.innerHTML = "<p>No videos found.</p>";
+      return;
+    }
+
+    grid.innerHTML = data.videos.map(video => `
+      <article class="video-card">
+        <a href="${video.url}" target="_blank" rel="noopener">
+          <img src="${video.thumbnail}"
+               alt=""
+               style="width:100%;border-radius:10px">
+          <h3>${escapeHTML(video.title)}</h3>
+        </a>
+        <p>${escapeHTML(video.channel)}</p>
+      </article>
+    `).join("");
+
+  } catch (error) {
+    grid.innerHTML =
+      "<p>Search error: " + escapeHTML(error.message) + "</p>";
+  }
+}
+</script>
 </body>
 </html>
