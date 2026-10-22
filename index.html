@@ -1,108 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0f0f0f">
-  <meta name="description" content="VIDTUBE - Discover videos, Shorts, music and creators.">
-  <title>VIDTUBE - Watch Videos</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIDTUBE - Video Platform</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#0f0f0f;color:white}
+header{height:60px;background:#181818;display:flex;align-items:center;justify-content:space-between;padding:0 15px;position:sticky;top:0;z-index:10;border-bottom:1px solid #333}
+.logo{font-size:24px;font-weight:bold;color:#ff3030;cursor:pointer}
+.logo span{color:white}
+button{cursor:pointer;border:0;border-radius:20px;padding:10px 15px;background:#303030;color:white}
+button:hover{background:#505050}
+input,textarea{background:#222;color:white;border:1px solid #444;padding:12px;border-radius:8px;width:100%;margin:8px 0}
+main{padding:18px;padding-bottom:90px}
+.page{display:none}
+.page.active{display:block}
+h2{margin:12px 0 20px}
+h3{margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.video-card{background:#1b1b1b;border-radius:12px;overflow:hidden;cursor:pointer}
+.video-card img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.video-info{padding:12px}
+.muted{color:#aaa;font-size:13px;margin-top:7px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#181818;border-top:1px solid #333;display:flex;justify-content:space-around;padding:10px 3px;z-index:20}
+.bottom button{background:none;padding:7px 4px;font-size:11px;display:flex;flex-direction:column;gap:5px;align-items:center}
+.bottom button span{font-size:19px}
+.bottom button.selected{color:#ff4545}
+.panel{background:#1b1b1b;padding:18px;border-radius:12px;margin-bottom:15px}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.action-row button{border-radius:20px}
+video.player{width:100%;max-height:65vh;background:black;border-radius:12px}
+.primary{background:#ff3030}
+.primary:hover{background:#d92020}
+.hidden{display:none!important}
+.shorts-list{display:flex;flex-wrap:wrap;gap:15px}
+.short-card{width:220px;height:390px;border-radius:15px;overflow:hidden;background:#222;position:relative;cursor:pointer}
+.short-card video{width:100%;height:100%;object-fit:cover}
+.short-card .short-title{position:absolute;bottom:12px;left:10px;right:10px;background:#0009;padding:10px;border-radius:8px}
+label{display:block;margin-top:12px;color:#ddd}
+.comment{padding:12px 0;border-bottom:1px solid #333}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat{background:#292929;padding:20px;border-radius:10px}
+.stat strong{font-size:25px;display:block;margin-top:8px}
+.empty{text-align:center;padding:40px;color:#aaa}
+a{color:#ff5555}
+@media(min-width:800px){
+.bottom{top:60px;bottom:0;right:auto;width:85px;flex-direction:column;justify-content:flex-start}
+.bottom button{padding:18px 2px}
+main{margin-left:85px;padding:25px}
+header{padding:0 25px}
+}
+</style>
 </head>
 <body>
-<header class="topbar">
-  <a class="logo" href="index.html"><span class="logo-icon">▶</span> VIDTUBE</a>
-  <form id="searchForm" class="search-area">
-    <input id="searchInput" type="search" placeholder="Search videos..." aria-label="Search videos">
-    <button class="search-btn" type="submit">⌕</button>
-  </form>
-  <button class="round-btn" id="voiceBtn" title="Voice search">🎙️</button>
-  <a class="round-btn create-btn" href="#uploadBox" title="Create">＋</a>
-  <button class="round-btn" id="profileBtn" title="Profile">👤</button>
+
+<header>
+ <div class="logo" onclick="showPage('home')">▶ VID<span>TUBE</span></div>
+ <button onclick="showPage('search')">🔍 Search</button>
+ <button onclick="showPage('auth')">👤 Account</button>
 </header>
 
-<aside class="sidebar">
-  <button class="side-item active" data-view="home">⌂ <span>Home</span></button>
-  <button class="side-item" id="shortsNav">▶ <span>Shorts</span></button>
-  <button class="side-item" data-category="Music">♫ <span>Music</span></button>
-  <button class="side-item" data-category="Trending">🔥 <span>Trending</span></button>
-  <hr>
-  <button class="side-item" data-view="saved">◷ <span>Watch Later</span></button>
-  <button class="side-item" data-view="liked">♡ <span>Liked Videos</span></button>
-  <a class="side-item" href="#uploadBox">⬆ <span>Upload Video</span></a>
-</aside>
-
-<main class="main">
-  <nav class="categories" id="categories">
-    <button class="category active" data-category="All">All</button>
-    <button class="category" data-category="Trending">🔥 Trending</button>
-    <button class="category" data-category="Music">🎵 Music</button>
-    <button class="category" data-category="Pakistani Dramas">Pakistani Dramas</button>
-    <button class="category" data-category="Desi Vlogs">Desi Vlogs</button>
-    <button class="category" data-category="Comedy">Comedy</button>
-    <button class="category" data-category="Islamic">Islamic</button>
-    <button class="category" data-category="AI Stories">AI Stories</button>
-  </nav>
-
-  <section class="hero">
-    <div>
-      <h1>Welcome to VIDTUBE</h1>
-      <p>Discover videos, music, stories and creators.</p>
-      <button class="primary-btn" id="exploreBtn">Explore Videos →</button>
-    </div>
-    <div class="hero-art">▶️</div>
-  </section>
-
-  <h2 class="section-title" id="gridTitle">Recommended Videos</h2>
-  <section class="video-grid" id="videoGrid"></section>
-  <p class="empty" id="emptyMessage" hidden>No videos found. Try another search.</p>
-
-  <section id="shortsSection">
-    <h2 class="section-title">▶ VIDTUBE Shorts</h2>
-    <div class="shorts-row" id="shortsRow"></div>
-  </section>
-
-  <section class="upload-box" id="uploadBox">
-    <h2>⬆️ Add a Video</h2>
-    <p>Add a video title and an optional direct video URL. This demo saves video details in this browser only.</p>
-    <form id="uploadForm">
-      <label for="uploadTitle">Video title</label>
-      <input id="uploadTitle" required maxlength="150" placeholder="Enter video title">
-
-      <label for="uploadCategory">Category</label>
-      <select id="uploadCategory">
-        <option>Desi Vlogs</option>
-        <option>Music</option>
-        <option>Pakistani Dramas</option>
-        <option>Comedy</option>
-        <option>Islamic</option>
-        <option>AI Stories</option>
-      </select>
-
-      <label for="uploadUrl">Direct video URL (optional)</label>
-      <input id="uploadUrl" type="url" placeholder="https://example.com/video.mp4">
-
-      <button class="primary-btn" type="submit">Add Video</button>
-    </form>
-    <p id="uploadMessage" role="status"></p>
-  </section>
-
-  <section class="upload-box">
-    <h2>✨ VIDTUBE AI Idea Generator</h2>
-    <p>Get an idea for your next video.</p>
-    <button class="primary-btn" id="ideaBtn">Generate Video Idea</button>
-    <p id="aiResult" role="status"></p>
-  </section>
-</main>
-
-<nav class="mobile-nav">
-  <button data-view="home"><span>⌂</span>Home</button>
-  <button id="mobileShorts"><span>▶</span>Shorts</button>
-  <a href="#uploadBox"><span>＋</span>Create</a>
-  <button data-view="saved"><span>◷</span>Library</button>
+<nav class="bottom">
+ <button class="selected" onclick="showPage('home',this)"><span>🏠</span>Home</button>
+ <button onclick="showPage('shorts',this)"><span>🎬</span>Shorts</button>
+ <button onclick="showPage('search',this)"><span>🔍</span>Search</button>
+ <button onclick="showPage('upload',this)"><span>⬆️</span>Upload</button>
+ <button onclick="showPage('profile',this)"><span>👤</span>Profile</button>
+ <button onclick="showPage('studio',this)"><span>📊</span>Studio</button>
 </nav>
 
-<button data-view="saved"><span></span>Library</button>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js" defer></script>
+<main>
+
+<section id="home" class="page active">
+ <h2>🏠 Home - Videos Feed</h2>
+ <div class="grid" id="videoGrid"></div>
+</section>
+
+<section id="shorts" class="page">
+ <h2>🎬 VIDTUBE Shorts</h2>
+ <div class="shorts-list" id="shortsList"></div>
+</section>
+
+<section id="search" class="page">
+ <h2>🔍 Search Videos</h2>
+ <input id="searchInput" placeholder="Search videos..." oninput="searchVideos()">
+ <div class="grid" id="searchGrid"></div>
+</section>
+
+<section id="upload" class="page">
+ <h2>⬆️ Upload Your Video</h2>
+ <div class="panel">
+  <label>Video Title</label>
+  <input id="uploadTitle" placeholder="Enter video title">
+  <label>Description</label>
+  <textarea id="uploadDescription" placeholder="Write video description"></textarea>
+  <label>Select Video File</label>
+  <input id="videoFile" type="file" accept="video/*">
+  <label>Thumbnail Image (optional)</label>
+  <input id="thumbnailFile" type="file" accept="image/*">
+  <button class="primary" onclick="uploadVideo()">Upload Video</button>
+  <p class="muted">Demo mode: videos are previewed in this browser. A backend is needed to publish videos for everyone.</p>
+ </div>
+</section>
+
+<section id="watch" class="page">
+ <h2>▶️ Watch Video</h2>
+ <div class="panel">
+  <video id="mainPlayer" class="player" controls playsinline></video>
+  <h2 id="watchTitle">Video title</h2>
+  <p id="watchDescription" class="muted"></p>
+  <div class="action-row">
+   <button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
+   <button onclick="subscribe()">🔔 <span id="subscribeText">Subscribe</span></button>
+  </div>
+  <p id="channelName" class="muted">VIDTUBE Channel</p>
+ </div>
+ <div class="panel">
+  <h3>💬 Comments</h3>
+  <input id="commentInput" placeholder="Write a comment...">
+  <button class="primary" onclick="addComment()">Post Comment</button>
+  <div id="comments"></div>
+ </div>
+</section>
+
+<section id="channels" class="page">
+ <h2>🔔 Channels & Subscriptions</h2>
+ <div class="panel">
+  <h3>VIDTUBE Channel</h3>
+  <p class="muted">Discover videos and creators.</p>
+  <button class="primary" onclick="subscribe()">Subscribe</button>
+ </div>
+ <div id="channelVideos" class="grid"></div>
+</section>
+
+<section id="auth" class="page">
+ <h2>🔐 Login / Signup</h2>
+ <div class="panel">
+  <input id="userName" placeholder="Your name">
+  <input id="userEmail" type="email" placeholder="Email address">
+  <input id="userPassword" type="password" placeholder="Password">
+  <button class="primary" onclick="login()">Login / Signup</button>
+  <p id="authMessage" class="muted"></p>
+  <p class="muted">Demo account only. Secure account authentication needs a backend.</p>
+ </div>
+</section>
+
+<section id="profile" class="page">
+ <h2>👤 User Profile</h2>
+ <div class="panel">
+  <h2 id="profileName">VIDTUBE User</h2>
+  <p id="profileEmail" class="muted">Sign in to view your profile</p>
+  <p id="profileSubs" class="muted">Subscriptions: 0</p>
+  <button onclick="showPage('auth')">Edit Account</button>
+  <button onclick="logout()">Logout</button>
+ </div>
+ <h3>Your Videos</h3>
+ <div class="grid" id="profileVideos"></div>
+</section>
+
+<section id="studio" class="page">
+ <h2>📊 Creator Studio</h2>
+ <div class="stat-grid">
+  <div class="stat">Total Videos<strong id="totalVideos">0</strong></div>
+  <div class="stat">Total Views<strong id="totalViews">0</strong></div>
+  <div class="stat">Total Likes<strong id="totalLikes">0</strong></div>
+  <div class="stat">Subscribers<strong id="totalSubs">0</strong></div>
+ </div>
+ <div class="panel" style="margin-top:18px">
+  <h3>Your Creator Dashboard</h3>
+  <button class="primary" onclick="showPage('upload')">⬆️ Upload New Video</button>
+  <button onclick="showPage('profile')">👤 View Profile</button>
+ </div>
+ <h3>Your Published Videos</h3>
+ <div id="studioVideos" class="grid"></div>
+</section>
+
+</main>
+
+<script>
+let videos = [];
+let currentVideo = null;
+let user = JSON.parse(localStorage.getItem('vidtubeUser') || 'null');
+let subscribed = localStorage.getItem('vidtubeSubscribed') === 'true';
+
+const samples = [
+ {id:1,title:"Beautiful Nature and Mountains",description:"Amazing nature video.",channel:"VIDTUBE",views:1250,likes:25,src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",thumb:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600"},
+ {id:2,title:"Amazing Ocean and Sea",description:"Enjoy the beautiful ocean.",channel:"VIDTUBE",views:850,likes:18,src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",thumb:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=600"},
+ {id:3,title:"Beautiful Green Forest",description:"Explore the green forest.",channel:"VIDTUBE",views:560,likes:12,src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",thumb:"https://images.unsplash.com/photo-1448375240586-882707db888b?w=600"}
+];
+
+function save(){localStorage.setItem('vidtubeVideos',JSON.stringify(videos.filter(v=>!v.local)));localStorage.setItem('vidtubeUser',JSON.stringify(user));}
+
+function load(){
+ const saved=JSON.parse(localStorage.getItem('vidtubeVideos')||'[]');
+ videos=[...samples,...saved];
+ render();
+}
+
+function showPage(id,btn){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.bottom button').forEach(b=>b.classList.remove('selected'));
+ if(btn)btn.classList.add('selected');
+ if(id==='profile')updateProfile();
+ if(id==='studio')updateStudio();
+ if(id==='channels')renderCards('channelVideos',videos);
+}
+
+function card(v){
+ return `<div class="video-card" onclick="watchVideo(${v.id})">
+ <img src="${v.thumb}" alt="Video thumbnail">
+ <div class="video-info"><h3>${escapeHTML(v.title)}</h3>
+ <p class="muted">${escapeHTML(v.channel)} · ${v.views} views</p></div></div>`;
+}
+
+function escapeHTML(s){
+ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function render(){
+ renderCards('videoGrid',videos);
+ renderCards('searchGrid',videos);
+ document.getElementById('shortsList').innerHTML=videos.map(v=>`
+ <div class="short-card" onclick="watchVideo(${v.id})">
+ <video src="${v.src}" muted playsinline></video>
+ <div class="short-title">${escapeHTML(v.title)}<br>▶ Watch</div>
+ </div>`).join('');
+}
+
+function renderCards(id,list){
+ document.getElementById(id).innerHTML=list.length?list.map(card).join(''):'<div class="empty">No videos yet.</div>';
+}
+
+function searchVideos(){
+ const q=document.getElementById('searchInput').value.toLowerCase();
+ renderCards('searchGrid',videos.filter(v=>(v.title+' '+v.description+' '+v.channel).toLowerCase().includes(q)));
+}
+
+function watchVideo(id){
+ currentVideo=videos.find(v=>v.id===id);
+ if(!currentVideo)return;
+ currentVideo.views++;
+ document.getElementById('mainPlayer').src=currentVideo.src;
+ document.getElementById('watchTitle').textContent=currentVideo.title;
+ document.getElementById('watchDescription').textContent=currentVideo.description;
+ document.getElementById('channelName').textContent=currentVideo.channel;
+ document.getElementById('likeCount').textContent=currentVideo.likes;
+ document.getElementById('subscribeText').textContent=subscribed?'Subscribed':'Subscribe';
+ document.getElementById('comments').innerHTML=(currentVideo.comments||[]).map(c=>`<div class="comment">${escapeHTML(c)}</div>`).join('');
+ showPage('watch');
+ document.getElementById('mainPlayer').play().catch(()=>{});
+ updateStudio();
+}
+
+function likeVideo(){
+ if(!currentVideo)return;
+ currentVideo.likes++;
+ document.getElementById('likeCount').textContent=currentVideo.likes;
+ updateStudio();
+}
+
+function subscribe(){
+ subscribed=!subscribed;
+ localStorage.setItem('vidtubeSubscribed',subscribed);
+ document.getElementById('subscribeText').textContent=subscribed?'Subscribed':'Subscribe';
+ updateStudio();
+}
+
+function addComment(){
+ if(!currentVideo)return;
+ const input=document.getElementById('commentInput');
+ if(!input.value.trim())return;
+ currentVideo.comments=currentVideo.comments||[];
+ currentVideo.comments.push(input.value.trim());
+ document.getElementById('comments').innerHTML=currentVideo.comments.map(c=>`<div class="comment">${escapeHTML(c)}</div>`).join('');
+ input.value='';
+}
+
+function uploadVideo(){
+ const title=document.getElementById('uploadTitle').value.trim();
+ const desc=document.getElementById('uploadDescription').value.trim();
+ const file=document.getElementById('videoFile').files[0];
+ const thumb=document.getElementById('thumbnailFile').files[0];
+ if(!title||!file){alert('Please enter a title and select a video.');return;}
+ const src=URL.createObjectURL(file);
+ const finish=(thumbnail)=>{
+  const v={id:Date.now(),title,description:desc,channel:user?.name||'VIDTUBE User',views:0,likes:0,src,thumb:thumbnail||'https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=600',local:true};
+  videos.unshift(v);
+  document.getElementById('uploadTitle').value='';
+  document.getElementById('uploadDescription').value='';
+  document.getElementById('videoFile').value='';
+  document.getElementById('thumbnailFile').value='';
+  render();alert('Video added to this browser preview!');
+  showPage('home');
+ };
+ if(thumb){
+  const reader=new FileReader();
+  reader.onload=()=>finish(reader.result);
+  reader.readAsDataURL(thumb);
+ }else finish(null);
+}
+
+function login(){
+ const name=document.getElementById('userName').value.trim();
+ const email=document.getElementById('userEmail').value.trim();
+ const password=document.getElementById('userPassword').value;
+ if(!name||!email||!password){document.getElementById('authMessage').textContent='Please fill all fields.';return;}
+ user={name,email};
+ save();updateProfile();
+ document.getElementById('authMessage').textContent='Demo profile created successfully!';
+}
+
+function logout(){
+ user=null;save();updateProfile();showPage('home');
+}
+
+function updateProfile(){
+ document.getElementById('profileName').textContent=user?user.name:'VIDTUBE User';
+ document.getElementById('profileEmail').textContent=user?user.email:'Sign in to view your profile';
+ document.getElementById('profileSubs').textContent='Subscriptions: '+(subscribed?1:0);
+ renderCards('profileVideos',videos.filter(v=>user&&v.channel===user.name));
+}
+
+function updateStudio(){
+ document.getElementById('totalVideos').textContent=videos.length;
+ document.getElementById('totalViews').textContent=videos.reduce((a,v)=>a+v.views,0);
+ document.getElementById('totalLikes').textContent=videos.reduce((a,v)=>a+v.likes,0);
+ document.getElementById('totalSubs').textContent=subscribed?1:0;
+ renderCards('studioVideos',videos);
+}
+
+load();
+updateProfile();
+updateStudio();
+</script>
 </body>
 </html>
