@@ -2,66 +2,499 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0f0f0f">
-  <title>Watch Video - VIDTUBE</title>
+  <meta name="description" content="Watch videos on VIDTUBE.">
+  <title>Watch Video | VIDTUBE</title>
   <link rel="stylesheet" href="style.css">
+
   <style>
-    .watch-page { max-width: 1000px; margin: 24px auto; padding: 0 16px 40px; }
-    .player { width: 100%; aspect-ratio: 16 / 9; background: #050505; border-radius: 12px; overflow: hidden; display: grid; place-items: center; }
-    .player video { width: 100%; height: 100%; object-fit: contain; }
-    .player-message { padding: 20px; text-align: center; color: #aaa; }
-    .watch-title { margin: 20px 0 10px; overflow-wrap: anywhere; }
-    .watch-note { color: #aaa; line-height: 1.6; }
+    .watch-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 350px;
+      gap: 24px;
+      max-width: 1500px;
+      margin: auto;
+      padding: 22px;
+    }
+
+    .watch-main { min-width: 0; }
+
+    .video-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .watch-title {
+      font-size: 21px;
+      margin: 16px 0;
+    }
+
+    .watch-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .channel-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .channel-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #333;
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+    }
+
+    .watch-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .watch-actions button {
+      padding: 10px 15px;
+      border-radius: 22px;
+      background: #303030;
+      color: white;
+    }
+
+    .subscribe-button {
+      background: #fff !important;
+      color: #111 !important;
+      font-weight: bold;
+    }
+
+    .description-box {
+      background: #242424;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 18px 0;
+      line-height: 1.6;
+    }
+
+    .comments-section { margin-top: 25px; }
+
+    .comment-form {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .comment-form input { flex: 1; }
+
+    .comment-item {
+      padding: 13px 0;
+      border-bottom: 1px solid #333;
+    }
+
+    .suggested-video {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    .suggested-video img {
+      width: 145px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #292929;
+    }
+
+    .suggested-video h4 {
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .suggested-video p {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .watch-message {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    @media(max-width: 850px) {
+      .watch-layout {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+
+      .suggested-video img { width: 130px; }
+    }
+
+    @media(max-width: 500px) {
+      .watch-title { font-size: 18px; }
+      .watch-details { align-items: flex-start; }
+      .watch-actions { width: 100%; }
+      .comment-form { flex-direction: column; }
+    }
   </style>
 </head>
+
 <body>
-  <header class="topbar">
-    <a class="logo" href="index.html"><span class="logo-icon">▶</span> VIDTUBE</a>
-    <a class="primary-btn" href="index.html">Home</a>
-  </header>
 
-  <main class="watch-page">
-    <div class="player" id="player">
-      <p class="player-message">Loading video...</p>
+<header class="header">
+  <a class="logo" href="index.html">VID<span>TUBE</span></a>
+  <form class="search-box" id="watchSearchForm">
+    <input id="searchInput" type="search" placeholder="Search videos..." aria-label="Search videos">
+    <button id="searchButton" type="submit">Search</button>
+  </form>
+  <a class="secondary-btn" href="index.html">Home</a>
+</header>
+
+<main class="watch-layout">
+
+  <section class="watch-main">
+
+    <div class="video-frame">
+      <video id="mainVideo" controls playsinline preload="metadata">
+        <source id="videoSource" src="" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
     </div>
-    <h1 class="watch-title" id="watchTitle">VIDTUBE Video</h1>
-    <p class="watch-note" id="watchNote"></p>
-    <p id="watchChannel"></p>
-  </main>
 
-  <script>
-    const params = new URLSearchParams(location.search);
-    const title = params.get("t") || "VIDTUBE Video";
-    const id = params.get("id") || "";
+    <h1 class="watch-title" id="videoTitle">Video title</h1>
 
-    document.getElementById("watchTitle").textContent = title;
+    <div class="watch-details">
+      <div class="channel-info">
+        <div class="channel-avatar" id="channelAvatar">V</div>
+        <div>
+          <strong id="channelName">VIDTUBE Creator</strong>
+          <p class="muted" id="subscriberCount">Channel</p>
+        </div>
+        <button class="subscribe-button" id="subscribeButton" type="button">
+          Subscribe
+        </button>
+      </div>
 
-    let uploaded = [];
+      <div class="watch-actions">
+        <button id="likeButton" type="button">👍 Like <span id="likeCount">0</span></button>
+        <button id="shareButton" type="button">↗ Share</button>
+      </div>
+    </div>
+
+    <div class="description-box">
+      <strong id="viewCount">0 views</strong>
+      <p id="videoDescription">Video description will appear here.</p>
+      <p class="watch-message" id="videoDate"></p>
+    </div>
+
+    <section class="comments-section">
+      <h2>Comments</h2>
+      <p class="muted" id="commentCount">Join the conversation</p>
+
+      <form class="comment-form" id="commentForm">
+        <input
+          type="text"
+          id="commentInput"
+          placeholder="Write a comment..."
+          maxlength="1000"
+          required
+        >
+        <button class="primary-btn" type="submit">Comment</button>
+      </form>
+
+      <div id="commentsList">
+        <p class="muted">Comments will appear here after backend connection.</p>
+      </div>
+    </section>
+
+  </section>
+
+  <aside>
+    <h3>Up next</h3>
+    <div id="suggestedVideos">
+      <p class="muted">More videos will appear here.</p>
+    </div>
+  </aside>
+
+</main>
+
+<script>
+"use strict";
+
+const params = new URLSearchParams(window.location.search);
+const videoId = params.get("id");
+
+const API_BASE = window.VIDTUBE_API || "";
+
+const elements = {
+  video: document.getElementById("mainVideo"),
+  source: document.getElementById("videoSource"),
+  title: document.getElementById("videoTitle"),
+  description: document.getElementById("videoDescription"),
+  channel: document.getElementById("channelName"),
+  avatar: document.getElementById("channelAvatar"),
+  views: document.getElementById("viewCount"),
+  likes: document.getElementById("likeCount"),
+  date: document.getElementById("videoDate"),
+  comments: document.getElementById("commentsList"),
+  commentCount: document.getElementById("commentCount"),
+  suggestions: document.getElementById("suggestedVideos"),
+  subscribe: document.getElementById("subscribeButton")
+};
+
+async function api(path, options = {}) {
+  const response = await fetch(API_BASE + path, {
+    ...options,
+    headers: {
+      ...(options.headers || {})
+    }
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.message || "Request failed");
+  }
+
+  return data;
+}
+
+function showMessage(element, message) {
+  element.textContent = message;
+}
+
+function renderVideo(video) {
+  elements.title.textContent = video.title || "Untitled video";
+  elements.description.textContent = video.description || "No description.";
+  elements.channel.textContent = video.channelName || "VIDTUBE Creator";
+  elements.avatar.textContent = (video.channelName || "V").charAt(0).toUpperCase();
+  elements.views.textContent = `${video.views || 0} views`;
+  elements.likes.textContent = video.likes || 0;
+  elements.date.textContent = video.createdAt || "";
+
+  if (video.videoUrl) {
+    elements.source.src = video.videoUrl;
+    elements.video.load();
+  } else {
+    showMessage(elements.date, "Video URL abhi available nahi hai.");
+  }
+}
+
+async function loadVideo() {
+  if (!videoId) {
+    showMessage(elements.title, "Video ID missing. Home page se video select karein.");
+    return;
+  }
+
+  try {
+    const data = await api(
+      `/api/videos/${encodeURIComponent(videoId)}`
+    );
+
+    renderVideo(data.video || data);
+
+    loadComments();
+    loadSuggestions();
+
+  } catch (error) {
+    showMessage(
+      elements.title,
+      "Video load nahi hua. Backend connection abhi complete karna baqi hai."
+    );
+    console.error(error);
+  }
+}
+
+async function loadComments() {
+  try {
+    const data = await api(
+      `/api/videos/${encodeURIComponent(videoId)}/comments`
+    );
+
+    const comments = data.comments || [];
+
+    elements.comments.replaceChildren();
+
+    if (!comments.length) {
+      showMessage(elements.comments, "No comments yet.");
+    }
+
+    comments.forEach(comment => {
+      const item = document.createElement("div");
+      item.className = "comment-item";
+
+      const name = document.createElement("strong");
+      name.textContent = comment.username || "User";
+
+      const message = document.createElement("p");
+      message.textContent = comment.text || "";
+
+      item.append(name, message);
+      elements.comments.appendChild(item);
+    });
+
+    elements.commentCount.textContent =
+      `${comments.length} comments`;
+
+  } catch (error) {
+    showMessage(
+      elements.comments,
+      "Comments backend connect hone ke baad load honge."
+    );
+  }
+}
+
+document.getElementById("commentForm").addEventListener(
+  "submit",
+  async event => {
+    event.preventDefault();
+
+    const input = document.getElementById("commentInput");
+    const text = input.value.trim();
+
+    if (!text || !videoId) return;
+
     try {
-      uploaded = JSON.parse(localStorage.getItem("vidtubeUploads") || "[]");
-      if (!Array.isArray(uploaded)) uploaded = [];
-    } catch {
-      uploaded = [];
-    }
+      await api(
+        `/api/videos/${encodeURIComponent(videoId)}/comments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        }
+      );
 
-    const video = uploaded.find(item => item.id === id);
-    const player = document.getElementById("player");
-    const note = document.getElementById("watchNote");
+      input.value = "";
+      await loadComments();
 
-    if (video && video.url) {
-      const element = document.createElement("video");
-      element.src = video.url;
-      element.controls = true;
-      element.playsInline = true;
-      element.preload = "metadata";
-      player.replaceChildren(element);
-      note.textContent = "Playback depends on the supplied direct video URL and its hosting permissions.";
-      document.getElementById("watchChannel").textContent = video.channel || "";
-    } else {
-      player.innerHTML = '<p class="player-message">▶<br><br>No playable video is connected to this item.</p>';
-      note.textContent = "This page is ready for a video player, but a title or thumbnail alone is not a video file. Connect a real hosted video to enable playback.";
+    } catch (error) {
+      alert("Comment post karne ke liye login aur backend zaroori hai.");
     }
-  </script>
+  }
+);
+
+document.getElementById("likeButton").addEventListener(
+  "click",
+  async () => {
+    if (!videoId) return;
+
+    try {
+      const data = await api(
+        `/api/videos/${encodeURIComponent(videoId)}/like`,
+        { method: "POST" }
+      );
+
+      if (data.likes !== undefined) {
+        elements.likes.textContent = data.likes;
+      }
+
+    } catch (error) {
+      alert("Like karne ke liye login aur backend zaroori hai.");
+    }
+  }
+);
+
+elements.subscribe.addEventListener("click", async () => {
+  if (!videoId) return;
+
+  try {
+    const data = await api(
+      `/api/videos/${encodeURIComponent(videoId)}/subscribe`,
+      { method: "POST" }
+    );
+
+    elements.subscribe.textContent =
+      data.subscribed ? "Subscribed" : "Subscribe";
+
+  } catch (error) {
+    alert("Subscribe karne ke liye login aur backend zaroori hai.");
+  }
+});
+
+document.getElementById("shareButton").addEventListener(
+  "click",
+  async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Video link copied!");
+    } catch (error) {
+      prompt("Copy this video link:", window.location.href);
+    }
+  }
+);
+
+document.getElementById("watchSearchForm").addEventListener(
+  "submit",
+  event => {
+    event.preventDefault();
+
+    const query = document.getElementById("searchInput").value.trim();
+
+    if (query) {
+      window.location.href =
+        `index.html?search=${encodeURIComponent(query)}`;
+    }
+  }
+);
+
+async function loadSuggestions() {
+  try {
+    const data = await api("/api/videos");
+    const videos = data.videos || [];
+
+    elements.suggestions.replaceChildren();
+
+    videos
+      .filter(video => String(video.id) !== String(videoId))
+      .slice(0, 10)
+      .forEach(video => {
+        const link = document.createElement("a");
+        link.className = "suggested-video";
+        link.href = `watch.html?id=${encodeURIComponent(video.id)}`;
+
+        const image = document.createElement("img");
+        image.src = video.thumbnailUrl || "";
+        image.alt = video.title || "Video thumbnail";
+
+        const info = document.createElement("div");
+        const title = document.createElement("h4");
+        title.textContent = video.title || "Untitled video";
+
+        const channel = document.createElement("p");
+        channel.textContent = video.channelName || "VIDTUBE Creator";
+
+        info.append(title, channel);
+        link.append(image, info);
+        elements.suggestions.appendChild(link);
+      });
+
+  } catch (error) {
+    showMessage(
+      elements.suggestions,
+      "Suggested videos backend connect hone ke baad dikhenge."
+    );
+  }
+}
+
+loadVideo();
+</script>
+
 </body>
 </html>
